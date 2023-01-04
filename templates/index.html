@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+  {% block javascript %}
+  {{ block.super }}
+  <script type="text/javascript">
+    // On définit une boucle qui parcourera une liste contenant les fichiers json
+    var dataurls = ['{% url "region_data" %}','{% url "borne_data" %}'] ;
+    var files = new Array();
+    window.addEventListener("map:init", function (event) {
+      for (var i=0, c=dataurls.length; i<c; i++){
+        //Définition des variables globales
+        var dataurl = dataurls[i];
+        var map = event.detail.map;
+        var lc = map.layerscontrol;
+        var control;
+        var content;
+        // Téléchargement des fichiers GEOJSON avec Ajax
+        var file = fetch(dataurl).then(function(resp) {
+            return resp.json();
+          });
+        files.push(file);
+        // Définition de la symbologie pour les régions
+        function colors(feature){
+          var props = feature.properties;
+          if (props.model == "reporter.region"){
+              switch(props.nom){
+                case'Sud':
+                  return{
+                    color: 'orange',
+                    fillOpacity: 0.6
+                  };
+                case'Nord':
+                  return{
+                    color: 'purple',
+                    fillOpacity: 0.6
+                  };
+              };
+        }};
+        // Définition de la symbologie pour les marqueurs
+        function markers(feature, latlng){
+          var props = feature.properties;
+          var greenIcon = L.icon({
+            iconUrl: "http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png",
+            shadowUrl: "http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png",
+
+            iconSize:     [10, 10], // size of the icon
+            shadowSize:   [10, 10], // size of the shadow
+            iconAnchor:   [0, 0], // point of the icon which will correspond to marker's location
+            shadowAnchor: [0, 0],  // the same for the shadow
+            popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+          });
+          if (props.model == "reporter.borne"){
+                  return L.marker(latlng, {icon: greenIcon});
+            }
+        };
+
+        // Définiton des popups et affichage des couches
+        file.then(
+        function(data) {
+          lc.addOverlay(L.geoJson(data, {pointToLayer : markers, style: colors,
+            onEachFeature: function onEachFeature(feature, layer) {
+              var props = feature.properties;
+              if (props.model == "reporter.region"){
+                control = `<h7>Region<h7>`;
+                content = `<h2 class = "popup">${props.nom}</h2><h3>${props.superficie} km²</h3><p>Date: ${props.date}</p>`};
+              if (props.model == "reporter.borne"){
+                control = `<h7>Borne <h7><img width="10" src="http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png"/>`;
+                content = `<img width="300" src="${props.picture_url}"/><h3 class = "popup">${props.name}</h3><p>Coord UTM: ${props.east},${props.nord}</p>`};
+              layer.bindPopup(content);
+          }}).addTo(map),control);
+        });
+      }});
+
+      function map_init(map, options) {
+        // Bar de recherche esri
+        var searchControl = L.esri.Geocoding.geosearch().addTo(map);
+        var results = L.layerGroup().addTo(map);
+
+        searchControl.on('results', function (data) {
+          var position = data.results[0].latlng;
+          results.clearLayers();
+
+          //Calcul d'itinéraire
+          var routing = L.Routing.control({
+            waypoints: [
+              L.latLng(position.lat,position.lng),
+              L.latLng(position.lat,position.lng)
+            ]
+          }).addTo(map);
+          map.on("dblclick", function(e){
+            routing.remove();
+          });
+          // document.getElementById("dwn-btn2").addEventListener("click", function(){
+          //   routing.remove();
+          // }, false);
+        });
+      };
+
+      function download(filename, text) {
+          var element = document.createElement('a');
+          element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+          element.setAttribute('download', filename);
+
+          element.style.display = 'none';
+          document.body.appendChild(element);
+
+          element.click();
+
+          document.body.removeChild(element);
+      };
+
+      function updateDiv(){
+        $(document).ready(function(){
+          $("#map").load(window.location.href + " #map" );
+        });
+      };
+
+  </script>
+  {% endblock %}
