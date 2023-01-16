@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.gis.db import models
 from django.contrib.gis.utils import LayerMapping
 from django.contrib.gis.geos import Point
+from django.utils import timezone
 from django.db.models import Manager as GeoManager
 import os
 
@@ -26,6 +27,9 @@ class Borne(models.Model):
     class meta:
         verbose_name_plural = 'Bornes'
 
+    def __str__(self):
+        return self.name
+
 class Region(models.Model):
     sce_geo = models.CharField(max_length=50)
     sce_sem = models.CharField(max_length=50)
@@ -37,4 +41,7 @@ class Region(models.Model):
     geom = models.MultiPolygonField(srid=4326)
 
     def _unicode_(self):
+        return self.nom
+
+    def __str__(self):
         return self.nom
