@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "region_list.html" %}
 
   {% block javascript %}
   {{ block.super }}
@@ -109,11 +109,11 @@
           document.body.removeChild(element);
       };
 
-      function updateDiv(){
-        $(document).ready(function(){
-          $("#map").load(window.location.href + " #map" );
-        });
-      };
+      // function updateDiv(){
+      //   $(document).ready(function(){
+      //     $("#map").load(window.location.href + " #map" );
+      //   });
+      // };
 
   </script>
   {% endblock %}
