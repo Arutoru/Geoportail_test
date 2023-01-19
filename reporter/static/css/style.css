@@ -35,7 +35,7 @@ section div div img.card-img{
 section div div img.card-img:hover {
   transform: scale(1.3);
 }
-/* Afficher uniquement les 10-2=8 premiers éléments */
+/* Afficher uniquement les 9 premiers éléments */
 section div ul li:nth-child(n+10){
     display: none !important;
   }
@@ -49,10 +49,10 @@ section div ul li:nth-child(n+10){
 section div ul li small{
       display: none !important;
     }
-  }
 }
+
 @media (min-width: 768px){
-.dropdown, .card {
+.dropdown{
     display:none;
   }
 }

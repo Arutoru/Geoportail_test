@@ -30,35 +30,43 @@
     <title>Our home</title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-center">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-between">
       {% if user.is_authenticated and user.is_staff %}
         <ul class="d-flex flex-row navbar-nav mr-auto">
-          <li><a class="navbar-brand" href="{% url 'home' %}">GEOSPACE</a></li>
+          <li><a class="navbar-brand" href="{% url 'home' %}">PAD</a></li>
           <li><a class="btn btn-primary" href="{% url 'admin:index' %}">Admin</a></li>
         </ul>
       {% elif user.is_authenticated %}
-        <ul class="navbar-nav mr-auto">
-          <li><a class="navbar-brand" href="{% url 'home' %}">GEOSPACE</a></li>
+        <ul class="d-flex flex-row navbar-nav mr-auto">
+          <li><a class="navbar-brand" href="{% url 'home' %}">PAD</a></li>
         </ul>
         <button type="button" id="dwn-btn" class="btn btn-success mx-2"> Télécharger les données</button>
       {% else %}
-        <ul class="navbar-nav mr-auto">
-          <li><a class="navbar-brand" href="{% url 'home' %}">GEOSPACE</a></li>
+        <ul class="d-flex flex-row navbar-nav mr-auto">
+          <li><a class="navbar-brand" href="{% url 'home' %}">PAD</a></li>
           <li><a class=" my-2 my-sm-0" href="{% url 'login' %}" aria-label="Login">
             <span class="fa fa-user fa-2x" aria-hidden="true"></span>
           </a></li>
         </ul>
       {% endif %}
-      <div class="dropdown">
+      <ul class="services d-flex flex-row navbar-nav mr-auto">
+        <li><a class="nav-item nav-link" href="#">AOT '</a></li><span></span>
+        <li><a class="nav-item nav-link" href="#">Contrats '</a></li><span></span>
+        <li><a class="nav-item nav-link" href="#">Factures</a></li><span></span>
+      </ul>
+      {% if user.is_authenticated %}
+      <a class="nav-item nav-link" href="{% url 'logout' %}">Log out</a>
+      {% endif %}
+      <!-- <div class="dropdown">
         <a class="btn btn-info dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Liste des projets
+            Services
         </a>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <a class="dropdown-item active" href="#">PROJECT TOPIC 1</a>
-          <a class="dropdown-item" href="#">PROJECT TOPIC 2</a>
-          <a class="dropdown-item" href="#">PROJECT TOPIC 3</a>
+          <a class="dropdown-item active" href="#">AOT</a>
+          <a class="dropdown-item" href="#">Contrats</a>
+          <a class="dropdown-item" href="#">Factures</a>
         </div>
-      </div>
+      </div> -->
     </nav>
 
     {% block content %}
