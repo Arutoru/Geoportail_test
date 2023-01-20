@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from datetime import timedelta
 from django.db.models import Count
-from .models import Borne, Region
+from .models import Aot
 # from .forms import PostForm, CommentForm
 
 from django.views.generic import (TemplateView,ListView,
@@ -18,21 +18,21 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 class HomePageView(TemplateView):
     template_name = 'index.html'
 
-class RegionListView(ListView):
-    model = Region
-    template_name = "region_list.html"
+class AotListView(ListView):
+    model = Aot
+    template_name = "aot_list.html"
 
     def get_queryset(self):
-        return Region.objects.order_by('nom')
+        return Aot.objects.order_by('amodiatair')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Récupération des données avec date d'expiration encore loin
-        query1 = Region.objects.filter(date__gt=timezone.now()+timedelta(days=120)).order_by('date')
+        query1 = Aot.objects.filter(date_caut__gt=timezone.now()+timedelta(days=120)).order_by('date_caut')
         # Récupération des données avec date d'expiration presque atteinte
-        query2 = Region.objects.filter(date__lte=timezone.now()+timedelta(days=120)).filter(date__gt=timezone.now()).order_by('date')
+        query2 = Aot.objects.filter(date_caut__lte=timezone.now()+timedelta(days=120)).filter(date_caut__gt=timezone.now()).order_by('date_caut')
         # Récupération des données avec date d'expiration dépassée
-        query3 = Region.objects.filter(date__lte=timezone.now()).order_by('date')
+        query3 = Aot.objects.filter(date_caut__lte=timezone.now()).order_by('date_caut')
 
         context["green"] = query1
         context["orange"] = query2

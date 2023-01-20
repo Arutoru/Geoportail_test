@@ -1,6 +1,6 @@
 from django.contrib.gis import admin
 # On peut LeafletGeoAdmin par admin.OSMGeoAdmin
-from .models import Borne, Region
+from .models import Aot
 from leaflet.admin import LeafletGeoAdmin
 # Register your models here.
 
@@ -9,13 +9,10 @@ from leaflet.admin import LeafletGeoAdmin
 #
 # admin.site.register(Incidence, IncidenceAdmin)
 
-class BorneAdmin(LeafletGeoAdmin):
+class AotAdmin(LeafletGeoAdmin):
     # pass
-    list_display = ('name', 'east', 'nord')
+    list_display = ('amodiatair', 'niu', 'sup', 'date_caut')
 # Register your models here.
 
-class RegionAdmin(LeafletGeoAdmin):
-    list_display = ('nom', 'region')
 
-admin.site.register(Borne,BorneAdmin)
-admin.site.register(Region,RegionAdmin)
+admin.site.register(Aot,AotAdmin)

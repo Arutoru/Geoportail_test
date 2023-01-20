@@ -7,20 +7,20 @@
       <input class="form-control" id="search" type="text" placeholder="Search" aria-label="Search" onkeyup="searchItem()">
     </div>
     <ul class="list-group">
-      {% for region in red %}
-      <li class="list-group-item list-group-item-danger d-flex justify-content-between">{{region.nom}}<small>{{region.date|date:"j M Y"}}</small></li>
+      {% for aot in red %}
+      <li class="list-group-item list-group-item-danger d-flex justify-content-between">{{aot.amodiatair}}<small>{{aot.date_caut|date:"j M Y"}}</small></li>
       {% endfor %}
-      {% for region in orange %}
-      <li class="list-group-item list-group-item-warning d-flex justify-content-between">{{region.nom}}<small>{{region.date|date:"j M Y"}}</small></li>
+      {% for aot in orange %}
+      <li class="list-group-item list-group-item-warning d-flex justify-content-between">{{aot.amodiatair}}<small>{{aot.date_caut|date:"j M Y"}}</small></li>
       {% endfor %}
-      {% for region in green %}
-      <li class="list-group-item list-group-item-success d-flex justify-content-between">{{region.nom}}<small>{{region.date|date:"j M Y"}}</small></li>
+      {% for aot in green %}
+      <li class="list-group-item list-group-item-success d-flex justify-content-between">{{aot.amodiatair}}<small>{{aot.date_caut|date:"j M Y"}}</small></li>
       {% endfor %}
     </ul>
   </div>
 
   <div class="col-lg-7 container" id="map">
-    <h2 class = "popup">THIS IS WHERE TO PUT THE TITLE OF THE PROJECT</h2><br>
+    <h2 class = "popup">CARTES DES AMODIATIONS DU PAD</h2><br>
     {% leaflet_map "detailmap" callback="window.map_init"%}
 
   </div>
@@ -36,7 +36,8 @@
       </div>
       <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
         <div class="card-body">
-          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+          Ce projet a pour but de permettre la gestion des amodiations attribuées par le port autonome de Douala. La carte ci-contre fournit les détails sur chaque amodiation et permet d'avoir les différentes AOT (Autorisations d'occupations temporaires) sur une carte.
+          Chacune des couleurs représente l'état de l'AOT, le rouge pour une AOT dont la dernière facture a déjà expirée , le jaune pour une AOT dont la dernière facture est sur le point d'expirée, Le vert pour une AOT dont la dernière facture payée est à jour.
         </div>
       </div>
     </div>
@@ -65,17 +66,17 @@
           <div class="form-check">
             <input class="form-check-input" type="checkbox" value="Region" id="defaultCheck1" checked>
             <label class="form-check-label" for="defaultCheck1">
-              Region
+              AOT
             </label>
           </div>
           <br/>
-          <div class="form-check">
+          <!-- <div class="form-check">
             <input  class="form-check-input" type="checkbox" value="Borne" id="defaultCheck2" checked>
             <label class="form-check-label" for="defaultCheck2">
               Borne
             </label>
             <img width="30" src="http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png" alt="..." class="rounded float-right">
-          </div>
+          </div> -->
 
         </div>
       </div>
@@ -128,7 +129,7 @@
       <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
         <div class="card-body">
           <button type="button" id="dwn-btn2" class="btn btn-success mx-2">
-            Réinitialiser la recherche <span class="fa fa-refresh fa-1x" aria-hidden="true"></span>
+            <span class="fa fa-refresh fa-1x" aria-hidden="true"></span>
           </button>
         </div>
       </div>

@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'agricom.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'agricom',
+        'NAME': 'geospace',
         'USER': 'postgres',
         'HOST': '127.0.0.1',
         'PASSWORD': 'postgres',
@@ -140,9 +140,9 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 LEAFLET_CONFIG = {
-    'SPATIAL_EXTENT': (5, -2, 20, 19), # 4 corners
-    'DEFAULT_CENTER': (8, 7), # lat,long
-    'DEFAULT_ZOOM': 6,
+    'SPATIAL_EXTENT': (9.6793149999999741, 4.0193855290000879, 9.6904400000001392, 4.0290719999999833), # 4 corners
+    'DEFAULT_CENTER': (9.683, 4.025), # lat,long
+    'DEFAULT_ZOOM': 15,
     'MIN_ZOOM': 6,
     'TILES': [('Satellite','https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}' ,
      {'attribution': '&copy; Big eye'}),

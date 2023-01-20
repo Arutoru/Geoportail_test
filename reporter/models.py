@@ -6,42 +6,22 @@ from django.utils import timezone
 from django.db.models import Manager as GeoManager
 import os
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-Imagepath = os.path.join(BASE_DIR, 'defaut.jpg')
-
-# Create your models here.
-class Borne(models.Model):
-    name = models.CharField(max_length=250)
-    east = models.FloatField()
-    nord = models.FloatField()
-    picture = models.ImageField(default=Imagepath)#on utilise défault pour l'image par défaut
-    geom = models.PointField(srid=4326)
-    objects = GeoManager()
-
-    def __unicode__(self):
-        return self.name
-    @property
-    def picture_url(self):
-        return self.picture.url
-
-    class meta:
-        verbose_name_plural = 'Bornes'
-
-    def __str__(self):
-        return self.name
-
-class Region(models.Model):
-    sce_geo = models.CharField(max_length=50)
-    sce_sem = models.CharField(max_length=50)
-    date = models.DateField()
-    origine = models.CharField(max_length=50)
-    region = models.CharField(max_length=3)
-    nom = models.CharField(max_length=50)
-    superficie = models.FloatField()
+class Aot(models.Model):
+    id_aot = models.IntegerField()
+    amodiatair = models.CharField(max_length=50)
+    rccm = models.CharField(max_length=50)
+    niu = models.CharField(max_length=50)
+    bp = models.CharField(max_length=50)
+    tel = models.BigIntegerField()
+    duree_bail = models.IntegerField()
+    taux_loyer = models.IntegerField()
+    sup = models.FloatField()
+    mont_cauti = models.BigIntegerField()
+    date_caut = models.DateField()
     geom = models.MultiPolygonField(srid=4326)
 
     def _unicode_(self):
-        return self.nom
+        return self.amodiatair
 
     def __str__(self):
-        return self.nom
+        return self.amodiatair
