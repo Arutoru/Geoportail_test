@@ -49,13 +49,9 @@
           </a></li>
         </ul>
       {% endif %}
-      <ul class="services d-flex flex-row navbar-nav mr-auto">
-        <li><a class="nav-item nav-link" href="#">AOT '</a></li><span></span>
-        <li><a class="nav-item nav-link" href="#">Contrats '</a></li><span></span>
-        <li><a class="nav-item nav-link" href="#">Factures</a></li><span></span>
-      </ul>
       {% if user.is_authenticated %}
       <a class="nav-item nav-link" href="{% url 'logout' %}">Log out</a>
+      <a class="navbar-brand" href="{% url 'home' %}">GA</a></li>
       {% endif %}
       <!-- <div class="dropdown">
         <a class="btn btn-info dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -92,109 +88,156 @@
   <script type="text/javascript" src="{% static 'js/map.js' %}"></script>
 
   <script type="text/javascript">
-    // On définit une boucle qui parcourera une liste contenant les fichiers json
+    //Définition des variables globales
     var dataurls = ['{% url "aot_data" %}'] ;
     var files = new Array();
-    window.addEventListener("map:init", function (event) {
-      for (var i=0, c=dataurls.length; i<c; i++){
-        //Définition des variables globales
-        var dataurl = dataurls[i];
-        var map = event.detail.map;
-        var lc = map.layerscontrol;
-        var control;
-        var content;
-        // Téléchargement des fichiers GEOJSON avec Ajax
-        var file = fetch(dataurl).then(function(resp) {
-            return resp.json();
-          });
-        files.push(file);
-        // Définition de la symbologie pour les régions
-        function colors(feature){
-          var props = feature.properties;
-          if (props.model == "reporter.aot"){
-            // console.log(new Date()-new Date(props.date));
-            switch(new Date(props.date_caut)-new Date()<0){
-              case true:
-                return{
-                  color: 'red',
-                  fillOpacity: 0.4
-                };
-              case false:
-                if(new Date(props.date_caut)-new Date()<10368000000){
-                  return{
-                    color: 'orange',
-                    fillOpacity: 0.4
-                  };
-                }
-                else{
-                  return{
-                    color: 'green',
-                    fillOpacity: 0.4
-                  };
-              }
-            };
-        }};
-        // Définition de la symbologie pour les marqueurs
-        // function markers(feature, latlng){
-        //   var props = feature.properties;
-        //   var greenIcon = L.icon({
-        //     iconUrl: "http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png",
-        //     shadowUrl: "http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png",
-        //
-        //     iconSize:     [10, 10], // size of the icon
-        //     shadowSize:   [10, 10], // size of the shadow
-        //     iconAnchor:   [0, 0], // point of the icon which will correspond to marker's location
-        //     shadowAnchor: [0, 0],  // the same for the shadow
-        //     popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-        //   });
-        //   if (props.model == "reporter.borne"){
-        //           return L.marker(latlng, {icon: greenIcon});
-        //     }
-        // };
+    var Centroids = new Object();
 
-        // Définiton des popups et affichage des couches
-        file.then(
-        function(data) {
-          lc.addOverlay(L.geoJson(data, {style: colors,
-            onEachFeature: function onEachFeature(feature, layer) {
-              var props = feature.properties;
-              if (props.model == "reporter.aot"){
-                control = `<h7>AOT<h7>`;
-                content = `<h2 class = "popup">${props.amodiatair}</h2><h3>${props.sup} m²</h3><p>Date: ${props.date_caut}</p>`};
-              // if (props.model == "reporter.borne"){
-              //   control = `<h7>Borne <h7><img width="10" src="http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png"/>`;
-              //   content = `<img width="300" src="${props.picture_url}"/><h3 class = "popup">${props.name}</h3><p>Coord UTM: ${props.east},${props.nord}</p>`};
-              layer.bindPopup(content);
-          }}).addTo(map),control);
+
+    // On définit une boucle qui parcourera une liste contenant les fichiers json
+    for (let i=0, c=dataurls.length; i<c; i++){
+      var dataurl = dataurls[i];
+      // Téléchargement des fichiers GEOJSON avec Ajax
+      var file = fetch(dataurl).then(function(resp) {
+          return resp.json();
         });
-      }});
+      files.push(file);
+    };
 
+    window.addEventListener("map:init", function (event){
+      var map = event.detail.map;
+      var lc = map.layerscontrol;
+      var control;
+      var content;
 
+      // Définiton des popups et affichage des couches
+      files.map(file => file.then(data => {
+        // Récupération du geoJson
+        lc.addOverlay(L.geoJson(data,
+        // Définition des paramètres de la couche
+        {style: colors, onEachFeature:
+          function onEachFeature(feature, layer) {
+            Centroids[props.amodiatair] = centroid(feature);
+            if (props.model == "reporter.aot"){
+              control = `<h7>AOT<h7>`;
+              content = `<h2 class = "popup">${props.amodiatair}</h2><h3>${props.sup} m²</h3><p>Date: ${props.date_caut}</p>`};
+            // if (props.model == "reporter.borne"){
+            //   control = `<h7>Borne <h7><img width="10" src="http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png"/>`;
+            //   content = `<img width="300" src="${props.picture_url}"/><h3 class = "popup">${props.name}</h3><p>Coord UTM: ${props.east},${props.nord}</p>`};
+            layer.bindPopup(content);
+          }
+        }).addTo(map),control);
+        // Zoom sur la couche
+        var zooms = document.getElementsByClassName('zoom');
+        for (let i=0, c=zooms.length; i<c; i++){
+          zoom = zooms[i];
+          let aot = zoom.previousElementSibling.innerText;
+          zoom.addEventListener("click", function(){
+            // console.log(zoom);
+            for (var key in Centroids){
+              // console.log(key);
+              if (key == aot){
+                var markerBounds = L.latLngBounds(Centroids[key],Centroids[key]);
+                // console.log(markerBounds);
+                map.fitBounds(markerBounds);
+              }}}, false);
+          };
+      }));
+    });
 
-      function map_init(map, options) {
-        // Bar de recherche esri
-        var searchControl = L.esri.Geocoding.geosearch().addTo(map);
-        var results = L.layerGroup().addTo(map);
-
-        searchControl.on('results', function (data) {
-          var position = data.results[0].latlng;
-          results.clearLayers();
-
-          //Calcul d'itinéraire
-          var routing = L.Routing.control({
-            waypoints: [
-              L.latLng(position.lat,position.lng),
-              L.latLng(position.lat,position.lng)
-            ]
-          }).addTo(map);
-          map.on("dblclick", function(e){
-            routing.remove();
-          });
-          // document.getElementById("dwn-btn2").addEventListener("click", function(){
-          //   routing.remove();
-          // }, false);
-        });
+    function centroid(feature){
+      geom = feature.geometry;
+      coord = geom.coordinates[0][0];
+      var sumX = 0;
+      var sumY = 0;
+      c = coord.length;
+      for (var i=0; i<c; i++){
+        sumX = sumX + coord[i][0];
+        sumY = sumY + coord[i][1];
       };
+      long = sumX/c;
+      lat = sumY/c;
+      Centroid = [lat, long];
+      return Centroid;
+    };
+
+
+
+
+    // Définition de la symbologie pour les marqueurs
+    // function markers(feature, latlng){
+    //   props = feature.properties;
+    //   var greenIcon = L.icon({
+    //     iconUrl: "http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png",
+    //     shadowUrl: "http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png",
+    //
+    //     iconSize:     [10, 10], // size of the icon
+    //     shadowSize:   [10, 10], // size of the shadow
+    //     iconAnchor:   [0, 0], // point of the icon which will correspond to marker's location
+    //     shadowAnchor: [0, 0],  // the same for the shadow
+    //     popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+    //   });
+    //   if (props.model == "reporter.borne"){
+    //           return L.marker(latlng, {icon: greenIcon});
+    //     }
+    // };
+
+    // Définition de la symbologie pour les régions
+    function colors(feature){
+      props = feature.properties;
+      if (props.model == "reporter.aot"){
+        // console.log(new Date()-new Date(props.date));
+        switch(new Date(props.date_caut)-new Date()<0){
+          case true:
+            return{
+              color: 'red',
+              fillOpacity: 0.4
+            };
+          case false:
+            if(new Date(props.date_caut)-new Date()<10368000000){
+              return{
+                color: 'orange',
+                fillOpacity: 0.4
+              };
+            }
+            else{
+              return{
+                color: 'green',
+                fillOpacity: 0.4
+              };
+          }
+        };
+    }};
+
+    // Fonctionnalité d'adressage
+    function map_init(map) {
+      // Bar de recherche esri
+      var searchControl = L.esri.Geocoding.geosearch().addTo(map);
+      var results = L.layerGroup().addTo(map);
+
+      searchControl.on('results', function (data) {
+        var position = data.results[0].latlng;
+        results.clearLayers();
+
+
+        //Calcul d'itinéraire
+        var routing = L.Routing.control({
+          waypoints: [
+            L.latLng(position.lat,position.lng),
+            L.latLng(position.lat,position.lng)
+          ]
+        }).addTo(map);
+
+        map.on("dblclick", function(e){
+          routing.remove();
+        });
+        // document.getElementById("dwn-btn2").addEventListener("click", function(){
+        //   routing.remove();
+        // }, false);
+      });
+    };
+
+
 
   </script>
 

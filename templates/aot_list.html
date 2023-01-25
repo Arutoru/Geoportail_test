@@ -8,13 +8,37 @@
     </div>
     <ul class="list-group">
       {% for aot in red %}
-      <li class="list-group-item list-group-item-danger d-flex justify-content-between">{{aot.amodiatair}}<small>{{aot.date_caut|date:"j M Y"}}</small></li>
+      <li class="list-group-item list-group-item-danger d-flex flex-lg-column justify-content-between">
+        <div>
+          <h7>{{aot.amodiatair}}</h7>
+          <button style="font-size: 0.6rem;" type="button" class="zoom btn btn-outline-danger btn-sm">
+            <span class="fa fa-search" aria-hidden="true"></span>
+          </button>
+        </div>
+        <small>{{aot.date_caut|date:"j M Y"}}</small>
+      </li>
       {% endfor %}
       {% for aot in orange %}
-      <li class="list-group-item list-group-item-warning d-flex justify-content-between">{{aot.amodiatair}}<small>{{aot.date_caut|date:"j M Y"}}</small></li>
+      <li class="list-group-item list-group-item-warning d-flex flex-lg-column justify-content-between">
+        <div>
+          <h7>{{aot.amodiatair}}</h7>
+          <button style="font-size: 0.6rem;" type="button" class="zoom btn btn-outline-warning btn-sm">
+            <span class="fa fa-search" aria-hidden="true"></span>
+          </button>
+        </div>
+        <small>{{aot.date_caut|date:"j M Y"}}</small>
+      </li>
       {% endfor %}
       {% for aot in green %}
-      <li class="list-group-item list-group-item-success d-flex justify-content-between">{{aot.amodiatair}}<small>{{aot.date_caut|date:"j M Y"}}</small></li>
+      <li class="list-group-item list-group-item-success d-flex flex-lg-column justify-content-between">
+        <div>
+          <h7>{{aot.amodiatair}}</h7>
+          <button style="font-size: 0.6rem;" type="button" class="zoom btn btn-outline-success btn-sm">
+            <span class="fa fa-search" aria-hidden="true"></span>
+          </button>
+        </div>
+        <small>{{aot.date_caut|date:"j M Y"}}</small>
+      </li>
       {% endfor %}
     </ul>
   </div>
@@ -37,7 +61,7 @@
       <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
         <div class="card-body">
           Ce projet a pour but de permettre la gestion des amodiations attribuées par le port autonome de Douala. La carte ci-contre fournit les détails sur chaque amodiation et permet d'avoir les différentes AOT (Autorisations d'occupations temporaires) sur une carte.
-          Chacune des couleurs représente l'état de l'AOT, le rouge pour une AOT dont la dernière facture a déjà expirée , le jaune pour une AOT dont la dernière facture est sur le point d'expirée, Le vert pour une AOT dont la dernière facture payée est à jour.
+          Chacune des couleurs représente l'état de l'AOT, le rouge pour une AOT qui nécessite une nouvelle facturation, le jaune pour une AOT dont la dernière facture expire bientôt, Le vert pour une AOT dont la dernière facture payée est à jour.
         </div>
       </div>
     </div>
@@ -137,12 +161,12 @@
     <div class="card">
       <div class="card-header" id="headingFive">
         <h5 class="mb-0">
-          <button class="btn btn-link" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+          <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
             Documents
           </button>
         </h5>
       </div>
-      <div id="collapseFive" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+      <div id="collapseFive" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
         <div class="card-body">
         </div>
       </div>
