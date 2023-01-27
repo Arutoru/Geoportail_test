@@ -14,7 +14,7 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GDAL_LIBRARY_PATH = os.path.join(BASE_DIR,'GDAL/gdal304')
 GEOS_LIBRARY_PATH = os.path.join(BASE_DIR,'GDAL/geos_c')
 TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -85,7 +86,7 @@ WSGI_APPLICATION = 'agricom.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'agricom',
+        'NAME': 'geospace',
         'USER': 'postgres',
         'HOST': '127.0.0.1',
         'PASSWORD': 'postgres',
@@ -129,8 +130,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-STATIC_URL = 'reporter/static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     STATIC_DIR,
 ]
@@ -140,10 +143,11 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 LEAFLET_CONFIG = {
-    'SPATIAL_EXTENT': (5, -2, 20, 19), # 4 corners
-    'DEFAULT_CENTER': (8, 7), # lat,long
-    'DEFAULT_ZOOM': 6,
-    'MIN_ZOOM': 6,
+    # Retirer 0.005 pour les 2 premières et ajouter 0.005 pour les 2 dernières
+    'SPATIAL_EXTENT': (9.674, 4.014, 9.695, 4.034), # 4 corners
+    'DEFAULT_CENTER': (9.683, 4.025), # lat,long
+    'DEFAULT_ZOOM': 15,
+    'MIN_ZOOM': 13,
     'TILES': [('Satellite','https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}' ,
      {'attribution': '&copy; Big eye'}),
     ('Streets', 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {'attribution': '&copy; Contributors'})],
