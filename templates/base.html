@@ -120,7 +120,14 @@
             Centroids[props.amodiatair] = centroid(feature);
             if (props.model == "reporter.aot"){
               control = `<h7>AOT<h7>`;
-              content = `<h2 class = "popup">${props.amodiatair}</h2><h3>${props.sup} m²</h3><p>Date: ${props.date_caut}</p>`};
+              content = `<h2 class = "popup">${props.amodiatair}</h2>
+                        <h3>${props.sup} m²</h3>
+                        <h6 style="color:green;">R.A.S</h6>
+                        <h7>NUI: ${props.niu}</h7><br>
+                        <h7>RCCM: ${props.rccm}</h7><br>
+                        <h7>Durée du bail: ${props.duree_bail} ans</h7><br>
+                        <h7>Date d'expiration: ${props.date_caut}</h7><br>
+                        <h7>Tel: ${props.tel}</h7><br>`};
             // if (props.model == "reporter.borne"){
             //   control = `<h7>Borne <h7><img width="10" src="http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png"/>`;
             //   content = `<img width="300" src="${props.picture_url}"/><h3 class = "popup">${props.name}</h3><p>Coord UTM: ${props.east},${props.nord}</p>`};

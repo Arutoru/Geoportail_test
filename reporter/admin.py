@@ -11,7 +11,7 @@ from leaflet.admin import LeafletGeoAdmin
 
 class AotAdmin(LeafletGeoAdmin):
     # pass
-    list_display = ('amodiatair', 'niu', 'sup', 'date_caut')
+    list_display = ('amodiatair', 'niu', 'rccm', 'duree_bail', 'tel', 'sup', 'date_caut')
 # Register your models here.
 
 
