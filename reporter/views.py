@@ -37,4 +37,16 @@ class AotListView(ListView):
         context["green"] = query1
         context["orange"] = query2
         context["red"] = query3
+
+        # Récupération des montants cautions inférieur à 2000000
+        query4 = Aot.objects.filter(mont_cauti__lt=2000000).order_by('-mont_cauti')
+        # Récupération des montants cautions supérieur à 2000000 et inférieur à 3000000
+        query5 = Aot.objects.filter(mont_cauti__gte=2000000).filter(mont_cauti__lt=3000000).order_by('-mont_cauti')
+        # Récupération des montants cautions supérieur à 3000000
+        query6 = Aot.objects.filter(mont_cauti__gte=3000000).order_by('-mont_cauti')
+
+        context["low_caut"] = query4
+        context["mid_caut"] = query5
+        context["high_caut"] = query6
+
         return context
