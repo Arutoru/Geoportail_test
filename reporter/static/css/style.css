@@ -5,9 +5,13 @@
   border-style: groove;
 }
 #detailmap {
-  height: 850px;
+  height: 950px;
   max-height: 1500px;
 }
+:root{
+  --sky: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+}
+
 .container {
   background-color: rgba(100, 200, 100, 0.7) !important;
   padding: 10px
@@ -22,12 +26,22 @@
 div h2{
   padding: 1vh;
 }
+
 footer{
   text-align : right;
   margin-right : 1vw;
 }
 section div div.card{
   overflow: hidden;
+}
+.card .collapse .card-body .stat-item{
+  background: var(--sky);
+  padding: 0.4rem 1rem;
+  margin: 0.8rem 0;
+  border-radius: 3rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 section div div img.card-img{
   width: 100%;
@@ -36,8 +50,8 @@ section div div img.card-img{
 section div div img.card-img:hover {
   transform: scale(1.3);
 }
-/* Afficher uniquement les 13 premiers éléments */
-section div ul li:nth-child(n+14){
+/* Afficher uniquement les 14 premiers éléments */
+section div ul li:nth-child(n+15){
     display: none !important;
   }
 }

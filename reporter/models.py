@@ -25,3 +25,13 @@ class Aot(models.Model):
 
     def __str__(self):
         return self.amodiatair
+
+    # def approve_facture(self):
+    #     return self.comments.filter(approved_facture=True)
+    #
+    # def get_absolute_url(self):
+    #     return reverse("aot_detail",kwargs={'pk':self.pk})
+
+# class Facture(object):
+#     aot = models.ForeignKey('reporter.Aot', related_name='factures' ,on_delete=models.CASCADE)
+#     mont_facture = models.BigIntegerField()

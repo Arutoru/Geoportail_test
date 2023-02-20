@@ -8,6 +8,7 @@
     {% leaflet_css %}
     <!-- Load static css -->
     <link rel="stylesheet" href="{% static "css/style.css" %}"/>
+    <script src="https://cdn.plot.ly/plotly-2.18.0.min.js"></script>
     <script type="text/javascript" src="{% static "routing/leaflet-routing-machine.js" %}"></script>
     <link rel="stylesheet" href="{% static "routing/leaflet-routing-machine.css" %}"/>
     <!-- Load Esri Leaflet Geocoder from CDN -->
@@ -117,8 +118,8 @@
         // Définition des paramètres de la couche
         {style: colors, onEachFeature:
           function onEachFeature(feature, layer) {
-            Centroids[props.amodiatair] = centroid(feature);
             if (props.model == "reporter.aot"){
+              Centroids[props.amodiatair] = centroid(feature);
               control = `<h7>AOT<h7>`;
               content = `<h2 class = "popup">${props.amodiatair}</h2><h3>${props.sup} m²</h3><p>Date: ${props.date_caut}</p>`};
             // if (props.model == "reporter.borne"){
