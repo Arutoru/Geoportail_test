@@ -39,14 +39,24 @@ class AotListView(ListView):
         context["red"] = query3
 
         # Récupération des montants cautions inférieur à 2000000
-        query4 = Aot.objects.filter(mont_cauti__lt=2000000).order_by('-mont_cauti')
+        query4 = Aot.objects.filter(mont_cauti__lt=2000000).values('mont_cauti').annotate(Count('mont_cauti')).order_by()
         # Récupération des montants cautions supérieur à 2000000 et inférieur à 3000000
-        query5 = Aot.objects.filter(mont_cauti__gte=2000000).filter(mont_cauti__lt=3000000).order_by('-mont_cauti')
+        query5 = Aot.objects.filter(mont_cauti__gte=2000000).filter(mont_cauti__lt=3000000).values('mont_cauti').annotate(Count('mont_cauti')).order_by()
         # Récupération des montants cautions supérieur à 3000000
-        query6 = Aot.objects.filter(mont_cauti__gte=3000000).order_by('-mont_cauti')
+        query6 = Aot.objects.filter(mont_cauti__gte=3000000).values('mont_cauti').annotate(Count('mont_cauti')).order_by()
 
         context["low_caut"] = query4
         context["mid_caut"] = query5
         context["high_caut"] = query6
 
+        # Récupération des remarques positives
+        query7 = Aot.objects.filter(statut="green")
+        # Récupération des remarques positives
+        query8 = Aot.objects.filter(statut="orange")
+        # Récupération des remarques positives
+        query9 = Aot.objects.filter(statut="red")
+
+        context["bon"] = query7
+        context["intermediaire"] = query8
+        context["critique"] = query9
         return context

@@ -41,7 +41,6 @@
         <ul class="d-flex flex-row navbar-nav mr-auto">
           <li><a class="navbar-brand" href="{% url 'home' %}">PAD</a></li>
         </ul>
-        <button type="button" id="dwn-btn" class="btn btn-success mx-2"> Télécharger les données</button>
       {% else %}
         <ul class="d-flex flex-row navbar-nav mr-auto">
           <li><a class="navbar-brand" href="{% url 'home' %}">PAD</a></li>
@@ -52,8 +51,9 @@
       {% endif %}
       {% if user.is_authenticated %}
       <a class="nav-item nav-link" href="{% url 'logout' %}">Log out</a>
-      <a class="navbar-brand" href="{% url 'home' %}">GA</a></li>
       {% endif %}
+      <a class="navbar-brand" href="{% url 'home' %}">GA</a></li>
+
       <!-- <div class="dropdown">
         <a class="btn btn-info dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Services
@@ -76,9 +76,9 @@
    </section>
   </body>
 
-  <footer>
+  <!-- <footer>
     <p> <b>Réalisé par </b><a href="https://www.linkedin.com/in/arthur-tankwa-1774bb170/" target = "_blank">Arthur Tankwa</a></p>
-  </footer>
+  </footer> -->
 
   {# Plugins#}
   <!-- Latest compiled and minified jQuery -->
@@ -121,8 +121,14 @@
             if (props.model == "reporter.aot"){
               Centroids[props.amodiatair] = centroid(feature);
               control = `<h7>AOT<h7>`;
-              content = `<h2 class = "popup">${props.amodiatair}</h2><h3>${props.sup} m²</h3><p>Date: ${props.date_caut}</p>`};
-            // if (props.model == "reporter.borne"){
+              content = `<h2 class = "popup">${props.amodiatair}</h2>
+                        <h3>${props.sup} m²</h3>
+                        <h6 style="color:${props.statut};">${props.remarque}</h6>
+                        <h7>NUI: ${props.niu}</h7><br>
+                        <h7>RCCM: ${props.rccm}</h7><br>
+                        <h7>Durée du bail: ${props.duree_bail} ans</h7><br>
+                        <h7>Date d'expiration: ${props.date_caut}</h7><br>
+                        <h7>Tel: ${props.tel}</h7><br>`};            // if (props.model == "reporter.borne"){
             //   control = `<h7>Borne <h7><img width="10" src="http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png"/>`;
             //   content = `<img width="300" src="${props.picture_url}"/><h3 class = "popup">${props.name}</h3><p>Coord UTM: ${props.east},${props.nord}</p>`};
             layer.bindPopup(content);

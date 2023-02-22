@@ -6,6 +6,12 @@ from django.utils import timezone
 from django.db.models import Manager as GeoManager
 import os
 
+color = [
+    ('green', 'Bon'),
+    ('orange', 'Intermédiaire'),
+    ('red', 'Critique'),
+]
+
 class Aot(models.Model):
     id_aot = models.IntegerField()
     amodiatair = models.CharField(max_length=50)
@@ -19,6 +25,8 @@ class Aot(models.Model):
     mont_cauti = models.BigIntegerField()
     date_caut = models.DateField()
     geom = models.MultiPolygonField(srid=4326)
+    statut = models.CharField(max_length=50, choices=color, default='green')
+    remarque = models.CharField(max_length=50, default='R.A.S.')
 
     def _unicode_(self):
         return self.amodiatair

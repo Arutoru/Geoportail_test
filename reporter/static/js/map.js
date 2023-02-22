@@ -38,7 +38,7 @@
       domain: {column: 1},
       name: 'Validité des AOT',
       marker:{
-        colors:['rgb(255,57,29)', 'rgb(255,246,29)', 'rgb(76,184,33)']
+        colors:['rgb(255,57,29)', 'rgb(255,220,50)', 'rgb(76,184,33)']
       },
       hoverinfo: 'label+percent',
       hole: .4,
@@ -59,8 +59,8 @@
         },
       ],
       height: 200,
-      width: 200,
-      margin: {"t": 30, "b": 10, "l": 0, "r": 0},
+      width: 180,
+      margin: {"t": 30, "b": 0, "l": 0, "r": 0},
       showlegend: false,
       grid: {rows: 1, columns: 1}
     };
@@ -68,11 +68,34 @@
     Plotly.newPlot('stat_aot', data, layout);
 
 
+    //  Récupération des classes de cautions
+    var lows = document.getElementsByClassName('low');
+    var mids = document.getElementsByClassName('mid');
+    var highs = document.getElementsByClassName('high');
+    var low = mid = high = 0
+
+    // Calculs des effectifs de chaque classe
+    for (let i=0, c=lows.length; i<c; i++){
+      low += parseInt(lows[i].innerHTML)
+    };
+    console.log(low);
+
+    for (let i=0, c=mids.length; i<c; i++){
+      mid += parseInt(mids[i].innerHTML)
+    };
+    console.log(mid);
+
+    for (let i=0, c=mids.length; i<c; i++){
+      high += parseInt(highs[i].innerHTML)
+    };
+    console.log(high);
+
+
     var trace1 = {
-      x: ['Feature A', 'Feature B', 'Feature C'],
-      y: [20, 14, 23],
+      x: ['Petite', 'Moyenne', 'Elevée'],
+      y: [low, mid, high],
       marker:{
-        color: ['rgba(204,204,204,1)', 'rgba(222,45,38,0.8)', 'rgba(204,204,204,1)']
+        color: ['rgb(0,191,200)', 'rgb(0,191,200)', 'rgb(0,191,200)']
       },
       type: 'bar',
       width: [0.4, 0.4, 0.4]
@@ -81,10 +104,10 @@
     var data = [trace1];
 
     var layout = {
-      title: 'Least Used Feature',
+      title: "Nombre d'AOT par <br> classes des cautions",
       height: 300,
       width: 180,
-      margin: {"t": 30, "b": 50, "l": 15, "r": 25},
+      margin: {"t": 50, "b": 50, "l": 15, "r": 25},
     };
 
     Plotly.newPlot('stat_cauti', data, layout);

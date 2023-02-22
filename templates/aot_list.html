@@ -7,37 +7,97 @@
       <input class="form-control" id="search" type="text" placeholder="Search" aria-label="Search" onkeyup="searchItem()">
     </div>
     <ul class="list-group">
+
+      <!-- Création des AOT expirés -->
       {% for aot in red %}
-      <li class="list-group-item list-group-item-danger d-flex flex-lg-column justify-content-between">
+      <li class="list-group-item list-group-item-danger d-flex justify-content-between">
         <div>
-          <h7>{{aot.amodiatair}}</h7>
-          <button style="font-size: 0.6rem;" type="button" class="zoom btn btn-outline-danger btn-sm">
-            <span class="fa fa-search" aria-hidden="true"></span>
-          </button>
+          <div>
+            <h7>{{aot.amodiatair}}</h7>
+            <button style="font-size: 0.6rem;" type="button" class="zoom btn btn-outline-danger btn-sm">
+              <span class="fa fa-search" aria-hidden="true"></span>
+            </button>
+          </div>
+          <small>{{aot.date_caut|date:"j M Y"}}</small>
         </div>
-        <small>{{aot.date_caut|date:"j M Y"}}</small>
+        <!-- Création des points de notifications pour les remarques -->
+        {% for statut in critique %}
+          {% if statut.amodiatair == aot.amodiatair %}
+          <i class="fa fa-circle" aria-hidden="true" style="color:rgb(255,57,29);"></i>
+          {% endif %}
+        {% endfor %}
+        {% for statut in intermediaire %}
+          {% if statut.amodiatair == aot.amodiatair %}
+          <i class="fa fa-circle" aria-hidden="true" style="color:rgb(255,220,50);"></i>
+          {% endif %}
+        {% endfor %}
+        {% for statut in bon %}
+          {% if statut.amodiatair == aot.amodiatair %}
+          <i class="fa fa-circle" aria-hidden="true" style="color:rgb(76,184,33);"></i>
+          {% endif %}
+        {% endfor %}
       </li>
       {% endfor %}
+
+      <!-- Création des AOT en attente de facturation -->
       {% for aot in orange %}
-      <li class="list-group-item list-group-item-warning d-flex flex-lg-column justify-content-between">
+      <li class="list-group-item list-group-item-warning d-flex justify-content-between">
         <div>
-          <h7>{{aot.amodiatair}}</h7>
-          <button style="font-size: 0.6rem;" type="button" class="zoom btn btn-outline-warning btn-sm">
-            <span class="fa fa-search" aria-hidden="true"></span>
-          </button>
+          <div>
+            <h7>{{aot.amodiatair}}</h7>
+            <button style="font-size: 0.6rem;" type="button" class="zoom btn btn-outline-warning btn-sm">
+              <span class="fa fa-search" aria-hidden="true"></span>
+            </button>
+          </div>
+          <small>{{aot.date_caut|date:"j M Y"}}</small>
         </div>
-        <small>{{aot.date_caut|date:"j M Y"}}</small>
+        <!-- Création des points de notifications pour les remarques -->
+        {% for statut in critique %}
+          {% if statut.amodiatair == aot.amodiatair %}
+          <i class="fa fa-circle" aria-hidden="true" style="color:rgb(255,57,29);"></i>
+          {% endif %}
+        {% endfor %}
+        {% for statut in intermediaire %}
+          {% if statut.amodiatair == aot.amodiatair %}
+          <i class="fa fa-circle" aria-hidden="true" style="color:rgb(255,220,50);"></i>
+          {% endif %}
+        {% endfor %}
+        {% for statut in bon %}
+          {% if statut.amodiatair == aot.amodiatair %}
+          <i class="fa fa-circle" aria-hidden="true" style="color:rgb(76,184,33);"></i>
+          {% endif %}
+        {% endfor %}
       </li>
       {% endfor %}
+
+      <!-- Création des AOT à jour -->
       {% for aot in green %}
-      <li class="list-group-item list-group-item-success d-flex flex-lg-column justify-content-between">
+      <li class="list-group-item list-group-item-success d-flex justify-content-between">
         <div>
-          <h7>{{aot.amodiatair}}</h7>
-          <button style="font-size: 0.6rem;" type="button" class="zoom btn btn-outline-success btn-sm">
-            <span class="fa fa-search" aria-hidden="true"></span>
-          </button>
+          <div>
+            <h7>{{aot.amodiatair}}</h7>
+            <button style="font-size: 0.6rem;" type="button" class="zoom btn btn-outline-success btn-sm">
+              <span class="fa fa-search" aria-hidden="true"></span>
+            </button>
+          </div>
+          <small>{{aot.date_caut|date:"j M Y"}}</small>
         </div>
-        <small>{{aot.date_caut|date:"j M Y"}}</small>
+        <!-- Création des points de notifications pour les remarques -->
+        {% for statut in critique %}
+          {% if statut.amodiatair == aot.amodiatair %}
+          <i class="fa fa-circle" aria-hidden="true" style="color:rgb(255,57,29);"></i>
+          {% endif %}
+        {% endfor %}
+        {% for statut in intermediaire %}
+          {% if statut.amodiatair == aot.amodiatair %}
+          <i class="fa fa-circle" aria-hidden="true" style="color:rgb(255,220,50);"></i>
+          {% endif %}
+        {% endfor %}
+        {% for statut in bon %}
+          {% if statut.amodiatair == aot.amodiatair %}
+          <i class="fa fa-circle" aria-hidden="true" style="color:rgb(76,184,33);"></i>
+          {% endif %}
+        {% endfor %}
       </li>
       {% endfor %}
     </ul>
@@ -69,7 +129,7 @@
       <div class="card-header" id="headingThree">
         <h5 class="mb-0">
           <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-            Acquisition d'une AOT
+            Acquisition des données
           </button>
         </h5>
       </div>
@@ -151,29 +211,44 @@
         </h5>
       </div>
       <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
-        <div class="card-body d-flex flex-column flex-md-row flex-lg-column">
-          <div id="stat_aot" class="mx-lg-auto"></div>
-          <ul class="col-4 col-lg-12">
-            <li class="stat-item">
-              <span style="color:rgb(255,57,29);">Expirés:</span> <span id="red">{{red.count}}</span>
-            </li>
-            <li class="stat-item">
-              <span style="color:rgb(255,246,29);">En attente:</span> <span id="orange">{{orange.count}}</span>
-            </li>
-            <li class="stat-item">
-              <span style="color:rgb(76,184,33);">A jour:</span><span id="green">{{green.count}}</span>
-            </li>
-          </ul>
-          <div id="stat_cauti" class="mx-lg-auto"></div>
+        <div class="card-body d-flex flex-column flex-md-row justify-content-md-around flex-lg-column">
+          <div class="mx-lg-auto">
+            <div id="stat_aot"></div>
+            <ul class="col-12">
+              <li class="stat-item">
+                <span style="color:rgb(255,57,29);">Expirés:</span> <span id="red">{{red.count}}</span>
+              </li>
+              <li class="stat-item">
+                <span style="color:rgb(255,220,50);">En attente:</span> <span id="orange">{{orange.count}}</span>
+              </li>
+              <li class="stat-item">
+                <span style="color:rgb(76,184,33);">A jour:</span><span id="green">{{green.count}}</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mx-lg-auto">
+            <div id="stat_cauti"></div>
+              <ul style="display:none;">
+                {% for cauti in low_caut %}
+                  <li class='low'>{{cauti.mont_cauti__count}}</li>
+                {% endfor %}
+                {% for cauti in mid_caut %}
+                  <li class='mid'>{{cauti.mont_cauti__count}}</li>
+                {% endfor %}
+                {% for cauti in high_caut %}
+                  <li class='high'>{{cauti.mont_cauti__count}}</li>
+                {% endfor %}
+              </ul>
+            <div>
+          </div>
         </div>
       </div>
     </div>
-
     <div class="card">
       <div class="card-header" id="headingFive">
         <h5 class="mb-0">
           <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
-            Documents
+            Outils
           </button>
         </h5>
       </div>

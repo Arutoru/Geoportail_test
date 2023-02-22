@@ -50,8 +50,8 @@ section div div img.card-img{
 section div div img.card-img:hover {
   transform: scale(1.3);
 }
-/* Afficher uniquement les 14 premiers éléments */
-section div ul li:nth-child(n+15){
+/* Afficher uniquement les 13 premiers éléments */
+section div ul li:nth-child(n+14){
     display: none !important;
   }
 }

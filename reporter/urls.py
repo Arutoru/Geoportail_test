@@ -9,7 +9,7 @@ urlpatterns= [
     # path('', HomePageView.as_view(), name='home'),
     path('accounts/profile/', views.AotListView.as_view(), name='home'),
     path('', views.AotListView.as_view(), name='home'),
-    path('aot_data/', GeoJSONLayerView.as_view(model=Aot, properties=('amodiatair', 'niu', 'sup', 'date_caut')), name='aot_data')
+    path('aot_data/', GeoJSONLayerView.as_view(model=Aot, properties=('amodiatair', 'niu', 'rccm', 'duree_bail', 'tel', 'sup', 'date_caut', 'statut', 'remarque')), name='aot_data')
     # path('borne_data/', GeoJSONLayerView.as_view(model=Borne, properties=('name','picture_url','east','nord')), name='borne_data'),
     # path('region_data/', GeoJSONLayerView.as_view(model=Region, properties=('nom', 'date', 'superficie')), name='region_data')
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
