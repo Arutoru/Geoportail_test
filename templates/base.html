@@ -90,7 +90,7 @@
 
   <script type="text/javascript">
     //Définition des variables globales
-    var dataurls = ['{% url "aot_data" %}'] ;
+    var dataurls = ['{% url "aot_data" %}', '{% url "index_data" %}'] ;
     var files = new Array();
     var Centroids = new Object();
 
@@ -116,7 +116,7 @@
         // Récupération du geoJson
         lc.addOverlay(L.geoJson(data,
         // Définition des paramètres de la couche
-        {style: colors, onEachFeature:
+        {pointToLayer: markers, style: colors, onEachFeature:
           function onEachFeature(feature, layer) {
             if (props.model == "reporter.aot"){
               Centroids[props.amodiatair] = centroid(feature);
@@ -128,9 +128,13 @@
                         <h7>RCCM: ${props.rccm}</h7><br>
                         <h7>Durée du bail: ${props.duree_bail} ans</h7><br>
                         <h7>Date d'expiration: ${props.date_caut}</h7><br>
-                        <h7>Tel: ${props.tel}</h7><br>`};            // if (props.model == "reporter.borne"){
-            //   control = `<h7>Borne <h7><img width="10" src="http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png"/>`;
-            //   content = `<img width="300" src="${props.picture_url}"/><h3 class = "popup">${props.name}</h3><p>Coord UTM: ${props.east},${props.nord}</p>`};
+                        <h7>Tel: ${props.tel}</h7><br>`};
+          if (props.model == "reporter.index"){
+              control = `<h7>Compteur <h7><img width="10" src="{% static "Electrical.png" %}"/>`;
+              content = `<h2 class = "popup">${props.amodiatair}</h2>
+                         <h7>Montant consommé: ${props.mont_payer} FCFA</h7><br>
+                         <h7>Frais d'entretien: ${props.entretien} FCFA</h7><br>
+                         <h7>Montant à payer: ${props.mont_payer} FCFA</h7>`};
             layer.bindPopup(content);
           }
         }).addTo(map),control);
@@ -172,22 +176,22 @@
 
 
     // Définition de la symbologie pour les marqueurs
-    // function markers(feature, latlng){
-    //   props = feature.properties;
-    //   var greenIcon = L.icon({
-    //     iconUrl: "http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png",
-    //     shadowUrl: "http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png",
-    //
-    //     iconSize:     [10, 10], // size of the icon
-    //     shadowSize:   [10, 10], // size of the shadow
-    //     iconAnchor:   [0, 0], // point of the icon which will correspond to marker's location
-    //     shadowAnchor: [0, 0],  // the same for the shadow
-    //     popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-    //   });
-    //   if (props.model == "reporter.borne"){
-    //           return L.marker(latlng, {icon: greenIcon});
-    //     }
-    // };
+    function markers(feature, latlng){
+      props = feature.properties;
+      var greenIcon = L.icon({
+        iconUrl: "{% static "Electrical.png" %}",
+        shadowUrl: "{% static "Electrical.png" %}",
+
+        iconSize:     [12, 12], // size of the icon
+        shadowSize:   [12, 12], // size of the shadow
+        iconAnchor:   [0, 0], // point of the icon which will correspond to marker's location
+        shadowAnchor: [0, 0],  // the same for the shadow
+        popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
+      });
+      if (props.model == "reporter.index"){
+              return L.marker(latlng, {icon: greenIcon});
+        }
+    };
 
     // Définition de la symbologie pour les régions
     function colors(feature){

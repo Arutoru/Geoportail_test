@@ -43,3 +43,31 @@ class Aot(models.Model):
 # class Facture(object):
 #     aot = models.ForeignKey('reporter.Aot', related_name='factures' ,on_delete=models.CASCADE)
 #     mont_facture = models.BigIntegerField()
+
+class Index(models.Model):
+    objectid = models.IntegerField()
+    join_count = models.IntegerField()
+    target_fid = models.IntegerField()
+    join_fid = models.IntegerField()
+    code_tarif = models.IntegerField()
+    compteur = models.IntegerField()
+    nouvel_ind = models.IntegerField()
+    ancien_ind = models.IntegerField()
+    coef = models.IntegerField()
+    conso_m3 = models.BigIntegerField()
+    prix_unit = models.BigIntegerField()
+    mont_conso = models.BigIntegerField()
+    entretien = models.BigIntegerField()
+    mont_payer = models.BigIntegerField()
+    amodiatair = models.CharField(max_length=50)
+    rccm = models.CharField(max_length=50)
+    niu = models.CharField(max_length=50)
+    bp = models.CharField(max_length=50)
+    tel = models.BigIntegerField()
+    geom = models.MultiPointField(srid=32632)
+
+    def _unicode_(self):
+        return self.amodiatair
+
+    def __str__(self):
+        return self.amodiatair
