@@ -25,12 +25,11 @@ STATIC_DIR = os.path.join(BASE_DIR,'reporter/static')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '#16d&9$&ahec*jcsm3s_8g!==3c%t)ei_2xjzu0f4-_4bq^($3'
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -87,11 +86,11 @@ WSGI_APPLICATION = 'agricom.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'geospace',
+        'NAME': 'railway',
         'USER': 'postgres',
-        'HOST': '127.0.0.1',
-        'PASSWORD': 'postgres',
-        'PORT': '5434',
+        'HOST': 'containers-us-west-1.railway.app',
+        'PASSWORD': 'pG7DrZxhTwLG6LCeFHkT',
+        'PORT': '7058',
     }
 }
 
