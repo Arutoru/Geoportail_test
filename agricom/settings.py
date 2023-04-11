@@ -15,8 +15,6 @@ from pathlib import Path
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-GDAL_LIBRARY_PATH = os.path.join(BASE_DIR,'GDAL/gdal304')
-GEOS_LIBRARY_PATH = os.path.join(BASE_DIR,'GDAL/geos_c')
 STATIC_DIR = os.path.join(BASE_DIR,'reporter/static')
 
 # Quick-start development settings - unsuitable for production
@@ -85,10 +83,15 @@ WSGI_APPLICATION = 'agricom.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'HOST': 'containers-us-west-1.railway.app',
+        'PASSWORD': 'pG7DrZxhTwLG6LCeFHkT',
+        'PORT': '7058',
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
