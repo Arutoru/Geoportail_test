@@ -53,6 +53,7 @@
       <a class="nav-item nav-link" href="{% url 'logout' %}">Log out</a>
       {% endif %}
       <a class="navbar-brand" href="{% url 'home' %}">GA</a></li>
+      <span class="openbtn" id="main" onclick="openNav()">|||</span>
 
       <!-- <div class="dropdown">
         <a class="btn btn-info dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -68,7 +69,7 @@
 
     {% block content %}
     {% endblock %}
-    <section class="d-flex flex-column flex-lg-row container-fluid">
+    <section class="d-flex flex-column flex-lg-row">
 
       {% block content1 %}
       {% endblock %}

@@ -2,6 +2,7 @@
   {% load static %}
   {% load leaflet_tags %}
   {% block content1 %}
+
   <div class="col-lg-2 d-flex flex-column">
     <div class="input-group mb-3">
       <input class="form-control" id="search" type="text" placeholder="Search" aria-label="Search" onkeyup="searchItem()">
@@ -87,13 +88,14 @@
     </ul>
   </div>
 
-  <div class="col-lg-7 container" id="map">
+  <div class="col-lg-10 container" id="map">
     <h2 class = "popup">CARTES DES AMODIATIONS DU PAD</h2>
     {% leaflet_map "detailmap" callback="window.map_init"%}
-
   </div>
 
-  <div class="col-lg-3" id="accordion">
+
+  <div class="sidebar" id="accordion">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
     <div class="card">
       <div class="card-header" id="headingOne">
         <h5 class="mb-0">
@@ -195,7 +197,7 @@
         </h5>
       </div>
       <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
-        <div class="card-body d-flex flex-column flex-md-row justify-content-md-around flex-lg-column">
+        <div class="card-body d-flex flex-column flex-lg-column">
           <div class="mx-lg-auto">
             <div id="stat_aot"></div>
             <ul class="col-12">
@@ -245,4 +247,17 @@
       </div>
     </div>
   </div>
+  </div>
+
+  <script>
+    function openNav() {
+      document.getElementById("accordion").style.width = "250px";
+      document.getElementById("main").style.marginRight = "250px";
+    }
+
+    function closeNav() {
+      document.getElementById("accordion").style.width = "0px";
+      document.getElementById("main").style.marginRight= "0px";
+    }
+    </script>
   {% endblock %}
