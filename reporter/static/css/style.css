@@ -7,7 +7,6 @@
 #detailmap {
   height: 950px;
   max-height: 1500px;
-  z-index: -99;
 }
 :root{
   --sky: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
@@ -16,7 +15,6 @@
 .container {
   background-color: rgba(100, 200, 100, 0.7) !important;
   padding: 10px;
-  z-index: -100;
 }
 .popup{
   color : #E2BC74;
@@ -68,6 +66,7 @@ section div ul li:nth-child(n+14){
   overflow-x: hidden;
   transition: 0.5s;
   padding-top: 60px;
+  z-index: 1000;
 }
 
 .sidebar a {
