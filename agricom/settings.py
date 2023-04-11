@@ -16,6 +16,8 @@ from pathlib import Path
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATIC_DIR = os.path.join(BASE_DIR,'reporter/static')
+GDAL_LIBRARY_PATH = os.path.join(BASE_DIR,'GDAL/gdal304')
+GEOS_LIBRARY_PATH = os.path.join(BASE_DIR,'GDAL/geos_c')s
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
