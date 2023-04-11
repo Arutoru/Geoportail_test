@@ -15,7 +15,8 @@ from pathlib import Path
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
+GDAL_LIBRARY_PATH = os.path.join(BASE_DIR,'GDAL/gdal304')
+GEOS_LIBRARY_PATH = os.path.join(BASE_DIR,'GDAL/geos_c')
 STATIC_DIR = os.path.join(BASE_DIR,'reporter/static')
 
 # Quick-start development settings - unsuitable for production
@@ -63,7 +64,7 @@ ROOT_URLCONF = 'agricom.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATE_DIR],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

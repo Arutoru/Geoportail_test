@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+{% load static %}
+{% load leaflet_tags %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    {% leaflet_js %}
+    {% leaflet_css %}
+    <!-- Load static css -->
+    <link rel="stylesheet" href="{% static "css/style.css" %}"/>
+    <script src="https://cdn.plot.ly/plotly-2.18.0.min.js"></script>
+    <script type="text/javascript" src="{% static "routing/leaflet-routing-machine.js" %}"></script>
+    <link rel="stylesheet" href="{% static "routing/leaflet-routing-machine.css" %}"/>
+    <!-- Load Esri Leaflet Geocoder from CDN -->
+    <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.3.2/dist/esri-leaflet-geocoder.css"
+      integrity="sha512-IM3Hs+feyi40yZhDH6kV8vQMg4Fh20s9OzInIIAc4nx7aMYMfo+IenRUekoYsHZqGkREUgx0VvlEsgm7nCDW9g=="
+      crossorigin="">
+    <!-- Load Esri Leaflet from CDN -->
+    <script src="https://unpkg.com/esri-leaflet@2.3.2/dist/esri-leaflet.js"
+    integrity="sha512-6LVib9wGnqVKIClCduEwsCub7iauLXpwrd5njR2J507m3A2a4HXJDLMiSZzjcksag3UluIfuW1KzuWVI5n/cuQ=="
+    crossorigin=""></script>
+    <script src="https://unpkg.com/esri-leaflet-geocoder@2.3.2/dist/esri-leaflet-geocoder.js"
+      integrity="sha512-8twnXcrOGP3WfMvjB0jS5pNigFuIWj4ALwWEgxhZ+mxvjF5/FBPVd5uAxqT8dd2kUmTVK9+yQJ4CmTmSg/sXAQ=="
+      crossorigin=""></script>
+    <!-- Latest compiled Bootsrtap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!-- Alternative to Bootstrap 3 Glyphicons -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <title>Our home</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-between">
+      {% if user.is_authenticated and user.is_staff %}
+        <ul class="d-flex flex-row navbar-nav mr-auto">
+          <li><a class="navbar-brand" href="{% url 'home' %}">PAD</a></li>
+          <li><a class="btn btn-primary" href="{% url 'admin:index' %}">Admin</a></li>
+        </ul>
+      {% elif user.is_authenticated %}
+        <ul class="d-flex flex-row navbar-nav mr-auto">
+          <li><a class="navbar-brand" href="{% url 'home' %}">PAD</a></li>
+        </ul>
+      {% else %}
+        <ul class="d-flex flex-row navbar-nav mr-auto">
+          <li><a class="navbar-brand" href="{% url 'home' %}">PAD</a></li>
+          <li><a class=" my-2 my-sm-0" href="{% url 'login' %}" aria-label="Login">
+            <span class="fa fa-user fa-2x" aria-hidden="true"></span>
+          </a></li>
+        </ul>
+      {% endif %}
+      {% if user.is_authenticated %}
+      <a class="nav-item nav-link" href="{% url 'logout' %}">Log out</a>
+      {% endif %}
+      <a class="navbar-brand" href="{% url 'home' %}">GA</a></li>
+      <span class="openbtn" id="main" onclick="openNav()">|||</span>
+
+      <!-- <div class="dropdown">
+        <a class="btn btn-info dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Services
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item active" href="#">AOT</a>
+          <a class="dropdown-item" href="#">Contrats</a>
+          <a class="dropdown-item" href="#">Factures</a>
+        </div>
+      </div> -->
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+    <section class="d-flex flex-column flex-lg-row">
+
+      {% block content1 %}
+      {% endblock %}
+
+   </section>
+  </body>
+
+  <!-- <footer>
+    <p> <b>Réalisé par </b><a href="https://www.linkedin.com/in/arthur-tankwa-1774bb170/" target = "_blank">Arthur Tankwa</a></p>
+  </footer> -->
+
+  {# Plugins#}
+  <!-- Latest compiled and minified jQuery -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="{% static 'js/map.js' %}"></script>
+
+  <script type="text/javascript">
+    //Définition des variables globales
+    var dataurls = ['{% url "aot_data" %}', '{% url "index_data" %}'] ;
+    var files = new Array();
+    var Centroids = new Object();
+
+
+    // On définit une boucle qui parcourera une liste contenant les fichiers json
+    for (let i=0, c=dataurls.length; i<c; i++){
+      var dataurl = dataurls[i];
+      // Téléchargement des fichiers GEOJSON avec Ajax
+      var file = fetch(dataurl).then(function(resp) {
+          return resp.json();
+        });
+      files.push(file);
+    };
+
+    window.addEventListener("map:init", function (event){
+      var map = event.detail.map;
+      var lc = map.layerscontrol;
+      var control;
+      var content;
+
+      // Définiton des popups et affichage des couches
+      files.map(file => file.then(data => {
+        // Récupération du geoJson
+        lc.addOverlay(L.geoJson(data,
+        // Définition des paramètres de la couche
+        {pointToLayer: markers, style: colors, onEachFeature:
+          function onEachFeature(feature, layer) {
+            if (props.model == "reporter.aot"){
+              Centroids[props.amodiatair] = centroid(feature);
+              control = `<h7>AOT<h7>`;
+              content = `<h2 class = "popup">${props.amodiatair}</h2>
+                        <h3>${props.sup} m²</h3>
+                        <h6 style="color:${props.statut};">${props.remarque}</h6>
+                        <h7>NUI: ${props.niu}</h7><br>
+                        <h7>RCCM: ${props.rccm}</h7><br>
+                        <h7>Durée du bail: ${props.duree_bail} ans</h7><br>
+                        <h7>Date d'expiration: ${props.date_caut}</h7><br>
+                        <h7>Tel: ${props.tel}</h7><br>`};
+          if (props.model == "reporter.index"){
+              control = `<h7>Compteur <h7><img width="10" src="{% static "Electrical.png" %}"/>`;
+              content = `<h2 class = "popup">${props.amodiatair}</h2>
+                         <h7>Montant consommé: ${props.mont_payer} FCFA</h7><br>
+                         <h7>Frais d'entretien: ${props.entretien} FCFA</h7><br>
+                         <h7>Montant à payer: ${props.mont_payer} FCFA</h7>`};
+            layer.bindPopup(content);
+          }
+        }).addTo(map),control);
+        // Zoom sur la couche
+        var zooms = document.getElementsByClassName('zoom');
+        for (let i=0, c=zooms.length; i<c; i++){
+          zoom = zooms[i];
+          let aot = zoom.previousElementSibling.innerText;
+          zoom.addEventListener("click", function(){
+            // console.log(zoom);
+            for (var key in Centroids){
+              // console.log(key);
+              if (key == aot){
+                var markerBounds = L.latLngBounds(Centroids[key],Centroids[key]);
+                // console.log(markerBounds);
+                map.fitBounds(markerBounds);
+              }}}, false);
+          };
+      }));
+    });
+
+    function centroid(feature){
+      geom = feature.geometry;
+      coord = geom.coordinates[0][0];
+      var sumX = 0;
+      var sumY = 0;
+      c = coord.length;
+      for (var i=0; i<c; i++){
+        sumX = sumX + coord[i][0];
+        sumY = sumY + coord[i][1];
+      };
+      long = sumX/c;
+      lat = sumY/c;
+      Centroid = [lat, long];
+      return Centroid;
+    };
+
+
+
+
+    // Définition de la symbologie pour les marqueurs
+    function markers(feature, latlng){
+      props = feature.properties;
+      var greenIcon = L.icon({
+        iconUrl: "{% static "Electrical.png" %}",
+        shadowUrl: "{% static "Electrical.png" %}",
+
+        iconSize:     [12, 12], // size of the icon
+        shadowSize:   [12, 12], // size of the shadow
+        iconAnchor:   [0, 0], // point of the icon which will correspond to marker's location
+        shadowAnchor: [0, 0],  // the same for the shadow
+        popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
+      });
+      if (props.model == "reporter.index"){
+              return L.marker(latlng, {icon: greenIcon});
+        }
+    };
+
+    // Définition de la symbologie pour les régions
+    function colors(feature){
+      props = feature.properties;
+      if (props.model == "reporter.aot"){
+        // console.log(new Date()-new Date(props.date));
+        switch(new Date(props.date_caut)-new Date()<0){
+          case true:
+            return{
+              color: 'red',
+              fillOpacity: 0.4
+            };
+          case false:
+            if(new Date(props.date_caut)-new Date()<10368000000){
+              return{
+                color: 'orange',
+                fillOpacity: 0.4
+              };
+            }
+            else{
+              return{
+                color: 'green',
+                fillOpacity: 0.4
+              };
+          }
+        };
+    }};
+
+    // Fonctionnalité d'adressage
+    function map_init(map) {
+      // Bar de recherche esri
+      var searchControl = L.esri.Geocoding.geosearch().addTo(map);
+      var results = L.layerGroup().addTo(map);
+
+      searchControl.on('results', function (data) {
+        var position = data.results[0].latlng;
+        results.clearLayers();
+
+
+        //Calcul d'itinéraire
+        var routing = L.Routing.control({
+          waypoints: [
+            L.latLng(position.lat,position.lng),
+            L.latLng(position.lat,position.lng)
+          ]
+        }).addTo(map);
+
+        map.on("dblclick", function(e){
+          routing.remove();
+        });
+        // document.getElementById("dwn-btn2").addEventListener("click", function(){
+        //   routing.remove();
+        // }, false);
+      });
+    };
+
+
+
+  </script>
+
+</html>
