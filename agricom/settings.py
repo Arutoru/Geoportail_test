@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'reporter.apps.ReporterConfig',
     'accounts.apps.AccountsConfig',
+    'bootstrap4',
     'leaflet',
     'djgeojson',
 ]
