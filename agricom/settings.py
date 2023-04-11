@@ -25,11 +25,12 @@ STATIC_DIR = os.path.join(BASE_DIR,'reporter/static')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '#16d&9$&ahec*jcsm3s_8g!==3c%t)ei_2xjzu0f4-_4bq^($3'
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
