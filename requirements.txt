@@ -6,7 +6,7 @@ django-geojson==4.0.0
 django-leaflet==0.28.3
 gunicorn==20.1.0
 psycopg2==2.9.5
-https://sourceforge.net/projects/gdal-wheels-for-linux/files/GDAL-3.4.1-cp39-cp39-manylinux_2_5_x86_64.manylinux1_x86_64.whl/download
+GDAL @ https://sourceforge.net/projects/gdal-wheels-for-linux/files/GDAL-3.4.1-cp39-cp39-manylinux_2_5_x86_64.manylinux1_x86_64.whl/download
 lxml==4.9.2
 soupsieve==2.4
 sqlparse==0.4.3
