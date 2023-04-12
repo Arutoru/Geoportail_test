@@ -16,7 +16,7 @@ from pathlib import Path
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_DIR = BASE_DIR / 'reporter' / 'static'
-GDAL_LIBRARY_PATH = str(os.path.join(BASE_DIR, "osgeo/lib/libgdal.so.30"))
+GDAL_LIBRARY_PATH = str(os.path.join(BASE_DIR, "gdal/lib/libgdal.so.30"))
 # GEOS_LIBRARY_PATH = str(os.path.join(STATIC_DIR, "GDAL/geos_c.dll"))
 
 # Quick-start development settings - unsuitable for production
