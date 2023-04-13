@@ -64,7 +64,7 @@ class Index(models.Model):
     niu = models.CharField(max_length=50)
     bp = models.CharField(max_length=50)
     tel = models.BigIntegerField()
-    geom = models.MultiPointField(srid=32632)
+    geom = models.MultiPointField(srid=4326)
 
     def _unicode_(self):
         return self.amodiatair
