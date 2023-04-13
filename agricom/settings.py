@@ -86,7 +86,7 @@ WSGI_APPLICATION = 'agricom.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'ENGINE': 'postgresql',
         'NAME': 'railway',
         'USER': 'postgres',
         'HOST': 'containers-us-west-1.railway.app',
