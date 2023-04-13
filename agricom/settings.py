@@ -18,7 +18,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_DIR = BASE_DIR / 'reporter' / 'static'
 GDAL_LIBRARY_PATH = str(os.path.join(BASE_DIR, "install/gdal/osgeo/lib/libgdal.so"))
 GEOS_LIBRARY_PATH = str(os.path.join(BASE_DIR, "install/geos/pygeos/lib.cpython-39-x86_64-linux-gnu.so"))
-
+# GDAL_LIBRARY_PATH = str(os.path.join(BASE_DIR, "GDAL/gdal304"))
+# GEOS_LIBRARY_PATH = str(os.path.join(BASE_DIR, "GDAL/geos_c"))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -46,7 +47,6 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'leaflet',
     'djgeojson',
-    'bootstrap4',
 ]
 
 MIDDLEWARE = [
@@ -86,7 +86,7 @@ WSGI_APPLICATION = 'agricom.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'railway',
         'USER': 'postgres',
         'HOST': 'containers-us-west-1.railway.app',
