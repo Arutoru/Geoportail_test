@@ -3,7 +3,7 @@
   {% load leaflet_tags %}
   {% block content1 %}
 
-  <div class="col-lg-2 d-flex flex-column">
+  <div class="col-2 d-flex flex-column">
     <div class="input-group mb-3">
       <input class="form-control" id="search" type="text" placeholder="Search" aria-label="Search" onkeyup="searchItem()">
     </div>
@@ -88,7 +88,7 @@
     </ul>
   </div>
 
-  <div class="col-lg-10 container" id="map">
+  <div class="col-10 container" id="map">
     <h2 class = "popup">CARTES DES AMODIATIONS DU PAD</h2>
     {% leaflet_map "detailmap" callback="window.map_init"%}
   </div>
