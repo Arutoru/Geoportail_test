@@ -16,8 +16,8 @@ from pathlib import Path
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_DIR = BASE_DIR / 'reporter' / 'static'
-GDAL_LIBRARY_PATH = str(os.path.join(BASE_DIR, "install/osgeo/lib/libgdal.so"))
-# GEOS_LIBRARY_PATH = str(os.path.join(STATIC_DIR, "GDAL/geos_c.dll"))
+GDAL_LIBRARY_PATH = str(os.path.join(BASE_DIR, "install/gdal/osgeo/lib/libgdal.so"))
+GEOS_LIBRARY_PATH = str(os.path.join(BASE_DIR, "install/geos/osgeo/lib/libgeos-c96939ee.so.3.10.4"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
