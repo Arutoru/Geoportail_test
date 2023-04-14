@@ -120,19 +120,21 @@
         {pointToLayer: markers, style: colors, onEachFeature:
           function onEachFeature(feature, layer) {
             if (props.model == "reporter.aot"){
-              Centroids[props.amodiatair] = centroid(feature);
+              Centroids[props.amodiataire] = centroid(feature);
               control = `<h7>AOT<h7>`;
-              content = `<h2 class = "popup">${props.amodiatair}</h2>
-                        <h3>${props.sup} m²</h3>
+              content = `<h2 class = "popup">${props.amodiataire}</h2>
+                        <h3>${props.superficie} m²</h3>
                         <h6 style="color:${props.statut};">${props.remarque}</h6>
                         <h7>NUI: ${props.niu}</h7><br>
                         <h7>RCCM: ${props.rccm}</h7><br>
                         <h7>Durée du bail: ${props.duree_bail} ans</h7><br>
-                        <h7>Date d'expiration: ${props.date_caut}</h7><br>
+                        <h7>Montant de la caution: ${props.montant_caution} ans</h7><br>
+                        <h7>Date de paiement: ${props.date_caution} ans</h7><br>
+                        <h7>Date d'expiration: ${props.date_fin}</h7><br>
                         <h7>Tel: ${props.tel}</h7><br>`};
           if (props.model == "reporter.index"){
               control = `<h7>Compteur <h7><img width="10" src="{% static "Electrical.png" %}"/>`;
-              content = `<h2 class = "popup">${props.amodiatair}</h2>
+              content = `<h2 class = "popup">${props.amodiataire}</h2>
                          <h7>Montant consommé: ${props.mont_payer} FCFA</h7><br>
                          <h7>Frais d'entretien: ${props.entretien} FCFA</h7><br>
                          <h7>Montant à payer: ${props.mont_payer} FCFA</h7>`};
@@ -199,14 +201,14 @@
       props = feature.properties;
       if (props.model == "reporter.aot"){
         // console.log(new Date()-new Date(props.date));
-        switch(new Date(props.date_caut)-new Date()<0){
+        switch(new Date(props.date_fin)-new Date()<0){
           case true:
             return{
               color: 'red',
               fillOpacity: 0.4
             };
           case false:
-            if(new Date(props.date_caut)-new Date()<10368000000){
+            if(new Date(props.date_fin)-new Date()<10368000000){
               return{
                 color: 'orange',
                 fillOpacity: 0.4

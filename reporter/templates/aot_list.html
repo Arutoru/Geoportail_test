@@ -13,16 +13,16 @@
       {% for aot in red %}
       <li class="list-group-item list-group-item-danger d-flex justify-content-between">
         <div>
-          <h7>{{aot.amodiatair}}</h7>
+          <h7>{{aot.amodiataire}}</h7>
           <button style="font-size: 0.6rem;" type="button" class="zoom btn btn-outline-danger btn-sm">
             <span class="fa fa-search" aria-hidden="true"></span>
           </button>
           <br>
-          <small>{{aot.date_caut|date:"j M Y"}}</small>
+          <small>{{aot.date_fin|date:"j M Y"}}</small>
         </div>
         <!-- Création des points de notifications pour les remarques -->
         {% for statut in critique %}
-          {% if statut.amodiatair == aot.amodiatair %}
+          {% if statut.amodiataire == aot.amodiataire %}
           <i class="fa fa-circle" aria-hidden="true" style="color:rgb(255,57,29);"></i>
           {% endif %}
         {% endfor %}
@@ -33,22 +33,22 @@
       {% for aot in orange %}
       <li class="list-group-item list-group-item-warning d-flex justify-content-between">
         <div>
-          <h7>{{aot.amodiatair}}</h7>
+          <h7>{{aot.amodiataire}}</h7>
           <button style="font-size: 0.6rem;" type="button" class="zoom btn btn-outline-warning btn-sm">
             <span class="fa fa-search" aria-hidden="true"></span>
           </button>
           <br>
-          <small>{{aot.date_caut|date:"j M Y"}}</small>
+          <small>{{aot.date_fin|date:"j M Y"}}</small>
         </div>
 
         <!-- Création des points de notifications pour les remarques -->
         {% for statut in critique %}
-          {% if statut.amodiatair == aot.amodiatair %}
+          {% if statut.amodiataire == aot.amodiataire %}
           <i class="fa fa-circle" aria-hidden="true" style="color:rgb(255,57,29);"></i>
           {% endif %}
         {% endfor %}
         {% for statut in intermediaire %}
-          {% if statut.amodiatair == aot.amodiatair %}
+          {% if statut.amodiataire == aot.amodiataire %}
           <i class="fa fa-circle" aria-hidden="true" style="color:rgb(255,220,50);"></i>
           {% endif %}
         {% endfor %}
@@ -59,27 +59,27 @@
       {% for aot in green %}
       <li class="list-group-item list-group-item-success d-flex justify-content-between">
         <div>
-          <h7>{{aot.amodiatair}}</h7>
+          <h7>{{aot.amodiataire}}</h7>
           <button style="font-size: 0.6rem;" type="button" class="zoom btn btn-outline-success btn-sm">
             <span class="fa fa-search" aria-hidden="true"></span>
           </button>
           <br>
-          <small>{{aot.date_caut|date:"j M Y"}}</small>
+          <small>{{aot.date_fin|date:"j M Y"}}</small>
         </div>
 
         <!-- Création des points de notifications pour les remarques -->
         {% for statut in critique %}
-          {% if statut.amodiatair == aot.amodiatair %}
+          {% if statut.amodiataire == aot.amodiataire %}
           <i class="fa fa-circle" aria-hidden="true" style="color:rgb(255,57,29);"></i>
           {% endif %}
         {% endfor %}
         {% for statut in intermediaire %}
-          {% if statut.amodiatair == aot.amodiatair %}
+          {% if statut.amodiataire == aot.amodiataire %}
           <i class="fa fa-circle" aria-hidden="true" style="color:rgb(255,220,50);"></i>
           {% endif %}
         {% endfor %}
         {% for statut in bon %}
-          {% if statut.amodiatair == aot.amodiatair %}
+          {% if statut.amodiataire == aot.amodiataire %}
           <i class="fa fa-circle" aria-hidden="true" style="color:rgb(76,184,33);"></i>
           {% endif %}
         {% endfor %}
@@ -216,13 +216,13 @@
             <div id="stat_cauti"></div>
               <ul style="display:none;">
                 {% for cauti in low_caut %}
-                  <li class='low'>{{cauti.mont_cauti__count}}</li>
+                  <li class='low'>{{cauti.montant_caution__count}}</li>
                 {% endfor %}
                 {% for cauti in mid_caut %}
-                  <li class='mid'>{{cauti.mont_cauti__count}}</li>
+                  <li class='mid'>{{cauti.montant_caution__count}}</li>
                 {% endfor %}
                 {% for cauti in high_caut %}
-                  <li class='high'>{{cauti.mont_cauti__count}}</li>
+                  <li class='high'>{{cauti.montant_caution__count}}</li>
                 {% endfor %}
               </ul>
             <div>
@@ -253,11 +253,13 @@
     function openNav() {
       document.getElementById("accordion").style.width = "300px";
       document.getElementById("main").style.marginRight = "300px";
+      document.getElementById("main").style.transform= "rotate(90deg)";
     }
 
     function closeNav() {
       document.getElementById("accordion").style.width = "0px";
       document.getElementById("main").style.marginRight= "0px";
+      document.getElementById("main").style.transform= "rotate(180deg)";
     }
     </script>
   {% endblock %}

@@ -7,16 +7,18 @@ from .models import Aot, Index
 
 aot_mapping = {
     'id_aot': 'ID_AOT',
-    'amodiatair': 'AMODIATAIR',
+    'amodiataire': 'AMODIATAIR',
     'rccm': 'RCCM',
     'niu': 'NIU',
     'bp': 'BP',
     'tel': 'TEL',
     'duree_bail': 'DUREE_BAIL',
     'taux_loyer': 'TAUX_LOYER',
-    'sup': 'sup',
-    'mont_cauti': 'mont_cauti',
-    'date_caut': 'Date_caut',
+    'superficie': 'sup',
+    'montant_caution': 'mont_cauti',
+    'date_caution': 'Date_caut',
+    'date_debut': 'Date_debut',
+    'date_fin': 'Date_fin',
     'geom': 'MULTIPOLYGON',
 }
 
