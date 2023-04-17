@@ -93,7 +93,7 @@
     {% leaflet_map "detailmap" callback="window.map_init"%}
   </div>
 
-
+  <!-- Petit resumé de Présentation du projet -->
   <div class="sidebar" id="accordion">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
     <div class="card">
@@ -111,20 +111,22 @@
         </div>
       </div>
     </div>
+
+    <!-- Ensemble des images qui se réfèrent au projet -->
     <div class="card">
-      <div class="card-header" id="headingThree">
+      <div class="card-header" id="headingImg">
         <h5 class="mb-0">
-          <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseImg" aria-expanded="false" aria-controls="collapseThree">
             Acquisition des données
           </button>
         </h5>
       </div>
-      <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+      <div id="collapseImg" class="collapse" aria-labelledby="headingImg" data-parent="#accordion">
+        <div id="carouselIndicators" class="carousel slide" data-ride="carousel">
           <ol class="carousel-indicators">
-            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            <li data-target="#carouselIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselIndicators" data-slide-to="2"></li>
           </ol>
           <div class="carousel-inner">
             <div class="carousel-item active">
@@ -137,23 +139,26 @@
               <img class="d-block w-100" src="{% static "ImgPro3.jpg" %}" alt="Third slide">
             </div>
           </div>
-          <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+          <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
           </a>
-          <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+          <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
           </a>
         </div>
       </div>
     </div>
+
+    <!-- Légende des couches -->
     <div class="card">
       <div class="card-header" id="headingTwo">
         <h5 class="mb-0 flex-column flex-md-row">
           <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
             Liste des couches
           </button>
+          <!-- Bouton pour télécharger les couches -->
           {% if user.is_authenticated %}
             <button type="button" id="dwn-btn" class="btn btn-success mx-2">
               Télécharger <span class="fa fa-download fa-1x" aria-hidden="true"></span>
@@ -175,25 +180,29 @@
             <label class="form-check-label" for="defaultCheck1">
               AOT
             </label>
+            <!-- Définition de la symbologie -->
             <ul style="padding:0">
               <li class="d-flex flex-row"><div class="" style="width:20px; height:20px; background:red;"></div><span>&nbsp;Expirés</span></li>
               <li class="d-flex flex-row"><div class="" style="width:20px; height:20px; background:orange;"></div><span>&nbsp;En cours d'expiration</span></li>
               <li class="d-flex flex-row"><div class="" style="width:20px; height:20px; background:green;"></div><span>&nbsp;A jour</span></li>
             </ul>
           </div>
+
           <div class="form-check">
             <input  class="form-check-input" type="checkbox" value="Borne" id="defaultCheck2" checked>
             <label class="form-check-label" for="defaultCheck2">
               Compteur
             </label>
-            <img width="30" src="{% static "Electrical.png" %}" alt="..." class="rounded float-right">
+            <!-- Définition de la symbologie -->
+            <img width="25" src="{% static "Electrical.png" %}" alt="..." class="rounded">
           </div>
-          <br/>
+
           <div class="form-check">
             <input class="form-check-input" type="checkbox" value="Region" id="defaultCheck3" checked>
             <label class="form-check-label" for="defaultCheck3">
               Route
             </label>
+            <!-- Définition de la symbologie -->
             <ul style="padding:0">
               <li class="d-flex flex-row"><div class="" style="width:20px; height:15px; border-bottom:4px solid blue;"></div><span>&nbsp;Bitumé</span></li>
               <li class="d-flex flex-row"><div class="" style="width:20px; height:15px; border-bottom:4px solid orange;"></div><span>&nbsp;Non bitumé</span></li>
@@ -202,6 +211,8 @@
         </div>
       </div>
     </div>
+
+    <!-- Statistiques -->
     <div class="card">
       <div class="card-header" id="headingFour">
         <h5 class="mb-0">
