@@ -5,7 +5,7 @@
 
   <div class="col-2 d-flex flex-column">
     <div class="input-group mb-3">
-      <input class="form-control" id="search" type="text" placeholder="Search" aria-label="Search" onkeyup="searchItem()">
+      <input class="form-control" id="search" type="text" placeholder="Rechercher une AOT" aria-label="Search" onkeyup="searchItem()">
     </div>
     <ul class="list-group">
 
@@ -184,7 +184,13 @@
             </label>
             <img width="30" src="{% static "Electrical.png" %}" alt="..." class="rounded float-right">
           </div>
-
+          <br/>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="Region" id="defaultCheck3" checked>
+            <label class="form-check-label" for="defaultCheck3">
+              Route
+            </label>
+          </div>
         </div>
       </div>
     </div>
@@ -198,7 +204,7 @@
       </div>
       <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
         <div class="card-body d-flex flex-column flex-lg-column">
-          <div class="mx-lg-auto">
+          <div class="mx-auto">
             <div id="stat_aot"></div>
             <ul class="col-12">
               <li class="stat-item">
@@ -212,7 +218,7 @@
               </li>
             </ul>
           </div>
-          <div class="mx-lg-auto">
+          <div class="mx-auto">
             <div id="stat_cauti"></div>
               <ul style="display:none;">
                 {% for cauti in low_caut %}

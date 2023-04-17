@@ -73,3 +73,17 @@ class Index(models.Model):
 
     def __str__(self):
         return self.amodiataire
+
+
+class Route(models.Model):
+    id = models.IntegerField(primary_key=True)
+    type = models.CharField(max_length=20)
+    nom_rue = models.CharField(max_length=20)
+    numero_rue = models.CharField(max_length=10)
+    geom = models.MultiLineStringField(srid=4326)
+
+    def _unicode_(self):
+        return self.nom_rue
+
+    def __str__(self):
+        return self.nom_rue

@@ -4,8 +4,19 @@
   border-style: groove;
 }
 #detailmap {
-  min-height: 90vh;
+  min-height: 950px;
+  height: 90vh;
 }
+/* Logo */
+nav div img{
+  height: 50px;
+}
+nav div span{
+  font-size: 1.1rem;
+  margin-top: 7px;
+  font-weight: 500;
+}
+
 :root{
   --sky: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
 }

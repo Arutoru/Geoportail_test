@@ -31,29 +31,29 @@
     <title>Our home</title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-between">
+    <nav class="nav navbar navbar-expand-lg navbar-light">
+      <div class="d-flex flex-row">
+        <a href=""><img src="{% static "PAD.jpg" %}" alt="First slide"></a>
+        <span>&nbsp;</span>
+      </div>
       {% if user.is_authenticated and user.is_staff %}
-        <ul class="d-flex flex-row navbar-nav mr-auto">
-          <li><a class="navbar-brand" href="{% url 'home' %}">PAD</a></li>
+        <ul class="navbar-nav mr-auto">
           <li><a class="btn btn-primary" href="{% url 'admin:index' %}">Admin</a></li>
         </ul>
-      {% elif user.is_authenticated %}
-        <ul class="d-flex flex-row navbar-nav mr-auto">
-          <li><a class="navbar-brand" href="{% url 'home' %}">PAD</a></li>
-        </ul>
       {% else %}
-        <ul class="d-flex flex-row navbar-nav mr-auto">
-          <li><a class="navbar-brand" href="{% url 'home' %}">PAD</a></li>
-          <li><a class=" my-2 my-sm-0" href="{% url 'login' %}" aria-label="Login">
-            <span class="fa fa-user fa-2x" aria-hidden="true"></span>
-          </a></li>
+        <ul class="navbar-nav mr-auto">
+          <li data-toggle="tooltip" data-placement="top" title="Se connecter">
+            <a class=" my-2 my-sm-0" href="{% url 'login' %}" aria-label="Login"><span class="fa fa-user fa-2x" aria-hidden="true"></span>
+            </a>
+          </li>
         </ul>
       {% endif %}
+
       {% if user.is_authenticated %}
       <a class="nav-item nav-link" href="{% url 'logout' %}">Log out</a>
       {% endif %}
-      <a class="navbar-brand" href="{% url 'home' %}">GA</a></li>
-      <span class="openbtn" id="main" onclick="openNav()">|||</span>
+      <!-- <a class="navbar-brand" href="{% url 'home' %}">GA</a></li> -->
+      <span class="openbtn" id="main" onclick="openNav()" data-toggle="tooltip" data-placement="top" title="Menu contextuel">|||</span>
 
       <!-- <div class="dropdown">
         <a class="btn btn-info dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -91,9 +91,10 @@
 
   <script type="text/javascript">
     //Définition des variables globales
-    var dataurls = ['{% url "aot_data" %}', '{% url "index_data" %}'] ;
+    var dataurls = ['{% url "aot_data" %}', '{% url "index_data" %}', '{% url "route_data" %}'] ;
     var files = new Array();
     var Centroids = new Object();
+    var Layers = new Object();
 
 
     // On définit une boucle qui parcourera une liste contenant les fichiers json
@@ -111,16 +112,21 @@
       var lc = map.layerscontrol;
       var control;
       var content;
+      var layers = new Array();
 
       // Définiton des popups et affichage des couches
       files.map(file => file.then(data => {
         // Récupération du geoJson
         lc.addOverlay(L.geoJson(data,
-        // Définition des paramètres de la couche
+        // Définition des paramètres de chaque couche
         {pointToLayer: markers, style: colors, onEachFeature:
           function onEachFeature(feature, layer) {
             if (props.model == "reporter.aot"){
+              // Définition d'un objet avec les amodiataires et leur centroïdes
               Centroids[props.amodiataire] = centroid(feature);
+              // Définition des popup qui seront affichés quand on zoome
+              Layers[props.amodiataire] = layer.bindPopup(content);
+
               control = `<h7>AOT<h7>`;
               content = `<h2 class = "popup">${props.amodiataire}</h2>
                         <h3>${props.superficie} m²</h3>
@@ -129,7 +135,7 @@
                         <h7>RCCM: ${props.rccm}</h7><br>
                         <h7>Durée du bail: ${props.duree_bail} ans</h7><br>
                         <h7>Montant de la caution: ${props.montant_caution} ans</h7><br>
-                        <h7>Date de paiement: ${props.date_caution} ans</h7><br>
+                        <h7>Date de paiement: ${props.date_caution}</h7><br>
                         <h7>Date d'expiration: ${props.date_fin}</h7><br>
                         <h7>Tel: ${props.tel}</h7><br>`};
           if (props.model == "reporter.index"){
@@ -138,6 +144,11 @@
                          <h7>Montant consommé: ${props.mont_payer} FCFA</h7><br>
                          <h7>Frais d'entretien: ${props.entretien} FCFA</h7><br>
                          <h7>Montant à payer: ${props.mont_payer} FCFA</h7>`};
+          if (props.model == "reporter.route"){
+              control = `<h7>Route<h7>`;
+              content = `<h2>${props.nom_rue}</h2>
+                         <h7>Numero rue: ${props.numero_rue}</h7><br>
+                         <h7>Type de route: ${props.type}</h7><br>`};
             layer.bindPopup(content);
           }
         }).addTo(map),control);
@@ -145,14 +156,19 @@
         var zooms = document.getElementsByClassName('zoom');
         for (let i=0, c=zooms.length; i<c; i++){
           zoom = zooms[i];
+          // Récupération du nom de l'amodiataire
           let aot = zoom.previousElementSibling.innerText;
+          // Récupération de l'amodiataire où on veut zoomer
           zoom.addEventListener("click", function(){
-            // console.log(zoom);
+            // Pour chaque amodiataire dont on a le centroïde
             for (var key in Centroids){
+              // si l'amodiataire dont on a le centroide est égale à celui qui a été cliqué
               // console.log(key);
               if (key == aot){
+                // On adapte la carte au centroide de l'AOT et on affiche le popup
                 var markerBounds = L.latLngBounds(Centroids[key],Centroids[key]);
                 // console.log(markerBounds);
+                Layers[key].openPopup();
                 map.fitBounds(markerBounds);
               }}}, false);
           };
@@ -178,7 +194,7 @@
 
 
 
-    // Définition de la symbologie pour les marqueurs
+    // Définition de la symbologie pour les points
     function markers(feature, latlng){
       props = feature.properties;
       var greenIcon = L.icon({
@@ -196,7 +212,7 @@
         }
     };
 
-    // Définition de la symbologie pour les régions
+    // Définition de la symbologie pour les polygones et les lignes
     function colors(feature){
       props = feature.properties;
       if (props.model == "reporter.aot"){
@@ -219,9 +235,20 @@
                 color: 'green',
                 fillOpacity: 0.4
               };
+            }
+      }};
+      if (props.model == "reporter.route"){
+        switch(props.type){
+          case'Bitumé':
+          return{
+            color: 'blue'
+          };
+          case'Non bitumé':
+          return{
+            color: 'orange'
           }
-        };
-    }};
+      }};
+    };
 
     // Fonctionnalité d'adressage
     function map_init(map) {

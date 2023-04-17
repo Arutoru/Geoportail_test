@@ -1,6 +1,6 @@
 from django.contrib.gis import admin
 # On peut LeafletGeoAdmin par admin.OSMGeoAdmin
-from .models import Aot, Index
+from .models import Aot, Index, Route
 from leaflet.admin import LeafletGeoAdmin
 # Register your models here.
 
@@ -17,5 +17,9 @@ class AotAdmin(LeafletGeoAdmin):
 class IndexAdmin(LeafletGeoAdmin):
     list_display = ('amodiataire', 'conso_m3', 'prix_unit', 'mont_conso', 'entretien', 'mont_payer')
 
+class RouteAdmin(LeafletGeoAdmin):
+    list_display = ( 'nom_rue', 'type', 'numero_rue')
+
 admin.site.register(Aot,AotAdmin)
 admin.site.register(Index,IndexAdmin)
+admin.site.register(Route,RouteAdmin)

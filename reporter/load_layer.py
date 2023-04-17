@@ -2,7 +2,7 @@ import os
 import csv
 from django.contrib.gis.utils import LayerMapping
 from django.contrib.gis.geos import Point
-from .models import Aot, Index
+from .models import Aot, Index, Route
 
 
 aot_mapping = {
@@ -45,15 +45,28 @@ index_mapping = {
     'geom': 'MULTIPOINT',
 }
 
+route_mapping = {
+    'id': 'Id',
+    'type': 'TYPE',
+    'nom_rue': 'NOM_RUE',
+    'numero_rue': 'NUMERO_RUE',
+    'geom': 'MULTILINESTRING',
+}
+
 aot_shp = os.path.abspath(os.path.join(os.path.dirname(__file__),'data/AOT.shp'))
 index_shp = os.path.abspath(os.path.join(os.path.dirname(__file__),'data/index.shp'))
+route_shp = os.path.abspath(os.path.join(os.path.dirname(__file__),'data/Route.shp'))
 
 def runAot(verbose=True):
-    lm = LayerMapping(Aot, aot_shp, aot_mapping, transform=False, encoding='iso-8859-1')
+    lm = LayerMapping(Aot, aot_shp, aot_mapping, transform=False, encoding='UTF-8')
     lm.save(strict=True, verbose=verbose)
 
 def runIndex(verbose=True):
-    lm = LayerMapping(Index, index_shp, index_mapping, transform=False, encoding='iso-8859-1')
+    lm = LayerMapping(Index, index_shp, index_mapping, transform=False, encoding='UTF-8')
+    lm.save(strict=True, verbose=verbose)
+
+def runRoute(verbose=True):
+    lm = LayerMapping(Route, route_shp, route_mapping, transform=False, encoding='UTF-8')
     lm.save(strict=True, verbose=verbose)
 
 
