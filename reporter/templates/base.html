@@ -24,6 +24,8 @@
     <script src="https://unpkg.com/esri-leaflet-geocoder@2.3.2/dist/esri-leaflet-geocoder.js"
       integrity="sha512-8twnXcrOGP3WfMvjB0jS5pNigFuIWj4ALwWEgxhZ+mxvjF5/FBPVd5uAxqT8dd2kUmTVK9+yQJ4CmTmSg/sXAQ=="
       crossorigin=""></script>
+    <!-- Leaflet pour label -->
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-textpath@1.2.0/leaflet.textpath.min.js"></script>
     <!-- Latest compiled Bootsrtap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -129,12 +131,23 @@
               // Définition des popup qui seront affichés quand on zoome
               Layers[props.amodiataire] = layer.bindPopup(content);
 
+              // Recupération des coordonnées
+              geom = feature.geometry;
+              coord = geom.coordinates[0][0];
+              // On transforme ces coordonnées en chaîne
+              // puis on remplace la ',' entre chaque cooordonnée par l'espace
+              // afin de pouvoir aller à ligne dans le popup.
+              bornes = coord.toString();
+              bornes = bornes.replace(/,9/g, " 9");
+
+              // Intégration des informations de légendes
               control = `<h7>AOT<h7>
                         <ul style="padding:0">
                           <li class="d-flex flex-row"><div class="" style="width:10px; height:10px; background:red;"></div><span>&nbsp;Expirés</span></li>
                           <li class="d-flex flex-row"><div class="" style="width:10px; height:10px; background:orange;"></div><span>&nbsp;En cours d'expiration</span></li>
                           <li class="d-flex flex-row"><div class="" style="width:10px; height:10px; background:green;"></div><span>&nbsp;A jour</span></li>
                         </ul>`;
+              // Intégration des informations de popup
               content = `<h2 class = "popup">${props.amodiataire}</h2>
                         <h3>${props.superficie} m²</h3>
                         <h6 style="color:${props.statut};">${props.remarque}</h6>
@@ -144,22 +157,30 @@
                         <h7>Montant de la caution: ${props.montant_caution} ans</h7><br>
                         <h7>Date de paiement: ${props.date_caution}</h7><br>
                         <h7>Date d'expiration: ${props.date_fin}</h7><br>
-                        <h7>Tel: ${props.tel}</h7><br>`};
+                        <h7>Tel: ${props.tel}</h7><br>
+                        <h7>Bornes:</h7><br>
+                        <div style="width:250px; word-spacing: 50px;">${bornes}</div>`};
           if (props.model == "reporter.index"){
-              control = `<h7>Compteur <h7><img width="10" src="{% static "Electrical.png" %}"/>`;
-              content = `<h2 class = "popup">${props.amodiataire}</h2>
-                         <h7>Montant consommé: ${props.mont_payer} FCFA</h7><br>
-                         <h7>Frais d'entretien: ${props.entretien} FCFA</h7><br>
-                         <h7>Montant à payer: ${props.mont_payer} FCFA</h7>`};
+            // Intégration des informations de légendes
+            control = `<h7>Compteur <h7><img width="10" src="{% static "Electrical.png" %}"/>`;
+            // Intégration des informations de popup
+            content = `<h2 class = "popup">${props.amodiataire}</h2>
+                       <h7>Montant consommé: ${props.mont_payer} FCFA</h7><br>
+                       <h7>Frais d'entretien: ${props.entretien} FCFA</h7><br>
+                       <h7>Montant à payer: ${props.mont_payer} FCFA</h7>`};
           if (props.model == "reporter.route"){
-              control = `<h7>Route<h7>
-                        <ul style="padding:0">
-                          <li class="d-flex flex-row"><div class="" style="width:10px; height:8px; border-bottom:3px solid blue;"></div><span>&nbsp;Bitumé</span></li>
-                          <li class="d-flex flex-row"><div class="" style="width:10px; height:8px; border-bottom:3px solid orange;"></div><span>&nbsp;Non bitumé</span></li>
-                        </ul>`;
-              content = `<h2>${props.nom_rue}</h2>
-                         <h7>Numero rue: ${props.numero_rue}</h7><br>
-                         <h7>Type de route: ${props.type}</h7><br>`};
+            // Définition des labels pour les routes
+            layer.setText(props.nom_rue + ' Rue N°' + props.numero_rue, {center: true, attributes:{fill: 'white', font: 'bold 10px'}});
+            // Intégration des informations de légendes
+            control = `<h7>Route<h7>
+                      <ul style="padding:0">
+                        <li class="d-flex flex-row"><div class="" style="width:10px; height:8px; border-bottom:3px solid blue;"></div><span>&nbsp;Bitumé</span></li>
+                        <li class="d-flex flex-row"><div class="" style="width:10px; height:8px; border-bottom:3px solid orange;"></div><span>&nbsp;Non bitumé</span></li>
+                      </ul>`;
+            // Intégration des informations de popup
+            content = `<h2>${props.nom_rue}</h2>
+                       <h7>Numero rue: ${props.numero_rue}</h7><br>
+                       <h7>Type de route: ${props.type}</h7><br>`};
             layer.bindPopup(content);
           }
         }).addTo(map),control);

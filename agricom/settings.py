@@ -147,7 +147,7 @@ LOGOUT_REDIRECT_URL = '/'
 
 LEAFLET_CONFIG = {
     # Retirer 0.005 pour les 2 premières et ajouter 0.005 pour les 2 dernières
-    'SPATIAL_EXTENT': (9.674, 4.014, 9.695, 4.034), # 4 corners
+    'SPATIAL_EXTENT': (9.661, 4.005, 9.698, 4.040), # 4 corners
     'DEFAULT_CENTER': (9.683, 4.025), # lat,long
     'DEFAULT_ZOOM': 15,
     'MIN_ZOOM': 13,
