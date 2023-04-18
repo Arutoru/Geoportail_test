@@ -11,6 +11,11 @@ color = [
     ('orange', 'Intermédiaire'),
     ('red', 'Critique'),
 ]
+region = [
+    ('Zone avale', 'Zone avale'),
+    ('Parc à bois', 'Parc à bois'),
+    ('Zone de pêche', 'Zone de pêche'),
+]
 
 class Aot(models.Model):
     id_aot = models.IntegerField()
@@ -26,6 +31,7 @@ class Aot(models.Model):
     date_caution = models.DateField(default=None)
     superficie = models.FloatField(default=None)
     montant_caution = models.BigIntegerField(default=None)
+    localisation = models.CharField(max_length=50, choices=region, default=None, null=True)
     statut = models.CharField(max_length=50, choices=color, default='green')
     remarque = models.CharField(max_length=50, default='R.A.S.')
     geom = models.MultiPolygonField(srid=4326)
