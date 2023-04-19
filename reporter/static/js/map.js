@@ -1,3 +1,18 @@
+    // Gestion des Etiquettes
+    document.getElementById('labelOn').addEventListener("click", function(){
+      labels = document.getElementsByTagName('textPath');
+      for (let i=0, c=labels.length; i<c; i++){
+        labels[i].setAttribute('style', 'display: block');
+      }
+    }, false)
+    document.getElementById('labelOff').addEventListener("click", function(){
+      labels = document.getElementsByTagName('textPath');
+      for (let i=0, c=labels.length; i<c; i++){
+        labels[i].setAttribute('style', 'display: none');
+      }
+    }, false)
+
+
     // Menu contextuel
     var menubtn = document.getElementById("main")
     menubtn.addEventListener("click", function(){
