@@ -1,3 +1,20 @@
+    // Menu contextuel
+    var menubtn = document.getElementById("main")
+    menubtn.addEventListener("click", function(){
+      if (menubtn.className == "menu openbtn"){
+        document.getElementById("accordion").style.width = "300px";
+        menubtn.style.marginRight = "300px";
+        menubtn.style.transform = "rotate(90deg)";
+        menubtn.className = "menu closebtn";
+      }
+      else if(menubtn.className == "menu closebtn"){
+        document.getElementById("accordion").style.width = "0px";
+        menubtn.style.marginRight = "0px";
+        menubtn.style.transform = "rotate(180deg)";
+        menubtn.className = "menu openbtn";
+      }
+    }, false);
+
     // Téléchargement des couches sélectionnées
     // Récupération de toutes les couches
     var layers = document.getElementsByClassName('form-check-input');
@@ -15,7 +32,7 @@
       i=0;
       files.map(file => file.then(data => {
         if (listId.includes(i)){
-          console.log(data);
+          // console.log(data);
           text = JSON.stringify(data);
           var filename = dataurls[i]+ ".geojson";
           download(filename, text);
@@ -78,17 +95,17 @@
     for (let i=0, c=lows.length; i<c; i++){
       low += parseInt(lows[i].innerHTML)
     };
-    console.log(low);
+    // console.log(low);
 
     for (let i=0, c=mids.length; i<c; i++){
       mid += parseInt(mids[i].innerHTML)
     };
-    console.log(mid);
+    // console.log(mid);
 
     for (let i=0, c=mids.length; i<c; i++){
       high += parseInt(highs[i].innerHTML)
     };
-    console.log(high);
+    // console.log(high);
 
 
     var trace1 = {
@@ -122,11 +139,12 @@
         listStyle.push(items[i].style.diplay);
         search=document.getElementById("search").value;
         l = search.length;
-        console.log(items[i].firstElementChild.firstElementChild.innerText);
+        aot = items[i].firstElementChild.firstElementChild.innerText
+        // console.log(aot);
         if (l==0){
           items[i].setAttribute('style', 'display: '+ listStyle[i]+' !important');
         }
-        else if(items[i].firstElementChild.firstElementChild.innerText.slice(0,l)!=search){
+        else if(aot.toLowerCase().slice(0,l)!=search.toLowerCase()){
           items[i].setAttribute('style', 'display: none !important');
         }
         else{

@@ -98,7 +98,7 @@ section div ul li:nth-child(n+14){
   margin-left: 50px;
 }
 
-.openbtn {
+.menu {
   cursor: pointer;
   background-color: #1E90FF;
   color: white;
@@ -107,7 +107,7 @@ section div ul li:nth-child(n+14){
   text-orientation: sideways;
 }
 
-.openbtn:hover {
+.menu:hover {
   background-color: #1A80E4;
 }
 

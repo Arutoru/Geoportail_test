@@ -32,7 +32,7 @@
       i=0;
       files.map(file => file.then(data => {
         if (listId.includes(i)){
-          // console.log(data);
+          console.log(data);
           text = JSON.stringify(data);
           var filename = dataurls[i]+ ".geojson";
           download(filename, text);
@@ -95,17 +95,17 @@
     for (let i=0, c=lows.length; i<c; i++){
       low += parseInt(lows[i].innerHTML)
     };
-    // console.log(low);
+    console.log(low);
 
     for (let i=0, c=mids.length; i<c; i++){
       mid += parseInt(mids[i].innerHTML)
     };
-    // console.log(mid);
+    console.log(mid);
 
     for (let i=0, c=mids.length; i<c; i++){
       high += parseInt(highs[i].innerHTML)
     };
-    // console.log(high);
+    console.log(high);
 
 
     var trace1 = {
@@ -139,12 +139,11 @@
         listStyle.push(items[i].style.diplay);
         search=document.getElementById("search").value;
         l = search.length;
-        aot = items[i].firstElementChild.firstElementChild.innerText
-        // console.log(aot);
+        console.log(items[i].firstElementChild.firstElementChild.innerText);
         if (l==0){
           items[i].setAttribute('style', 'display: '+ listStyle[i]+' !important');
         }
-        else if(aot.toLowerCase().slice(0,l)!=search.toLowerCase()){
+        else if(items[i].firstElementChild.firstElementChild.innerText.slice(0,l)!=search){
           items[i].setAttribute('style', 'display: none !important');
         }
         else{

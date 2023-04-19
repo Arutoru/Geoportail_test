@@ -95,7 +95,6 @@
 
   <!-- Petit resumé de Présentation du projet -->
   <div class="sidebar" id="accordion">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
     <div class="card">
       <div class="card-header" id="headingOne">
         <h5 class="mb-0">
@@ -273,18 +272,4 @@
     </div>
   </div>
   </div>
-
-  <script>
-    function openNav() {
-      document.getElementById("accordion").style.width = "300px";
-      document.getElementById("main").style.marginRight = "300px";
-      document.getElementById("main").style.transform= "rotate(90deg)";
-    }
-
-    function closeNav() {
-      document.getElementById("accordion").style.width = "0px";
-      document.getElementById("main").style.marginRight= "0px";
-      document.getElementById("main").style.transform= "rotate(180deg)";
-    }
-    </script>
   {% endblock %}
