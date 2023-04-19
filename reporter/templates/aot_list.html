@@ -11,78 +11,82 @@
 
       <!-- Création des AOT expirés -->
       {% for aot in red %}
-      <li class="list-group-item list-group-item-danger d-flex justify-content-between">
+      <li class="list-group-item list-group-item-danger d-flex flex-wrap justify-content-between">
         <div>
           <h7>{{aot.amodiataire}}</h7>
-          <button style="font-size: 0.6rem;" type="button" class="zoom btn btn-outline-danger btn-sm">
-            <span class="fa fa-search" aria-hidden="true"></span>
-          </button>
           <br>
           <small>{{aot.date_fin|date:"j M Y"}}</small>
         </div>
-        <!-- Création des points de notifications pour les remarques -->
-        {% for statut in critique %}
-          {% if statut.amodiataire == aot.amodiataire %}
-          <i class="fa fa-circle" aria-hidden="true" style="color:rgb(255,57,29);"></i>
-          {% endif %}
-        {% endfor %}
+        <div>
+          <button style="font-size: 0.6rem;" type="button" class="zoom btn btn-outline-danger btn-sm">
+            <span class="fa fa-search" aria-hidden="true"></span>
+          </button>
+          <!-- Création des points de notifications pour les remarques -->
+          {% for statut in critique %}
+            {% if statut.amodiataire == aot.amodiataire %}
+            <i class="fa fa-circle" aria-hidden="true" style="color:rgb(255,57,29);"></i>
+            {% endif %}
+          {% endfor %}
+        </div>
       </li>
       {% endfor %}
 
       <!-- Création des AOT en attente de facturation -->
       {% for aot in orange %}
-      <li class="list-group-item list-group-item-warning d-flex justify-content-between">
+      <li class="list-group-item list-group-item-warning d-flex flex-wrap justify-content-between">
         <div>
           <h7>{{aot.amodiataire}}</h7>
-          <button style="font-size: 0.6rem;" type="button" class="zoom btn btn-outline-warning btn-sm">
-            <span class="fa fa-search" aria-hidden="true"></span>
-          </button>
           <br>
           <small>{{aot.date_fin|date:"j M Y"}}</small>
         </div>
-
-        <!-- Création des points de notifications pour les remarques -->
-        {% for statut in critique %}
-          {% if statut.amodiataire == aot.amodiataire %}
-          <i class="fa fa-circle" aria-hidden="true" style="color:rgb(255,57,29);"></i>
-          {% endif %}
-        {% endfor %}
-        {% for statut in intermediaire %}
-          {% if statut.amodiataire == aot.amodiataire %}
-          <i class="fa fa-circle" aria-hidden="true" style="color:rgb(255,220,50);"></i>
-          {% endif %}
-        {% endfor %}
+        <div>
+          <button style="font-size: 0.6rem;" type="button" class="zoom btn btn-outline-warning btn-sm">
+            <span class="fa fa-search" aria-hidden="true"></span>
+          </button>
+          <!-- Création des points de notifications pour les remarques -->
+          {% for statut in critique %}
+            {% if statut.amodiataire == aot.amodiataire %}
+            <i class="fa fa-circle" aria-hidden="true" style="color:rgb(255,57,29);"></i>
+            {% endif %}
+          {% endfor %}
+          {% for statut in intermediaire %}
+            {% if statut.amodiataire == aot.amodiataire %}
+            <i class="fa fa-circle" aria-hidden="true" style="color:rgb(255,220,50);"></i>
+            {% endif %}
+          {% endfor %}
+        </div>
       </li>
       {% endfor %}
 
       <!-- Création des AOT à jour -->
       {% for aot in green %}
-      <li class="list-group-item list-group-item-success d-flex justify-content-between">
+      <li class="list-group-item list-group-item-success d-flex flex-wrap justify-content-between">
         <div>
           <h7>{{aot.amodiataire}}</h7>
-          <button style="font-size: 0.6rem;" type="button" class="zoom btn btn-outline-success btn-sm">
-            <span class="fa fa-search" aria-hidden="true"></span>
-          </button>
           <br>
           <small>{{aot.date_fin|date:"j M Y"}}</small>
         </div>
-
-        <!-- Création des points de notifications pour les remarques -->
-        {% for statut in critique %}
-          {% if statut.amodiataire == aot.amodiataire %}
-          <i class="fa fa-circle" aria-hidden="true" style="color:rgb(255,57,29);"></i>
-          {% endif %}
-        {% endfor %}
-        {% for statut in intermediaire %}
-          {% if statut.amodiataire == aot.amodiataire %}
-          <i class="fa fa-circle" aria-hidden="true" style="color:rgb(255,220,50);"></i>
-          {% endif %}
-        {% endfor %}
-        {% for statut in bon %}
-          {% if statut.amodiataire == aot.amodiataire %}
-          <i class="fa fa-circle" aria-hidden="true" style="color:rgb(76,184,33);"></i>
-          {% endif %}
-        {% endfor %}
+        <div>
+          <button style="font-size: 0.6rem;" type="button" class="zoom btn btn-outline-success btn-sm">
+            <span class="fa fa-search" aria-hidden="true"></span>
+          </button>
+          <!-- Création des points de notifications pour les remarques -->
+          {% for statut in critique %}
+            {% if statut.amodiataire == aot.amodiataire %}
+            <i class="fa fa-circle" aria-hidden="true" style="color:rgb(255,57,29);"></i>
+            {% endif %}
+          {% endfor %}
+          {% for statut in intermediaire %}
+            {% if statut.amodiataire == aot.amodiataire %}
+            <i class="fa fa-circle" aria-hidden="true" style="color:rgb(255,220,50);"></i>
+            {% endif %}
+          {% endfor %}
+          {% for statut in bon %}
+            {% if statut.amodiataire == aot.amodiataire %}
+            <i class="fa fa-circle" aria-hidden="true" style="color:rgb(76,184,33);"></i>
+            {% endif %}
+          {% endfor %}
+        </div>
       </li>
       {% endfor %}
     </ul>

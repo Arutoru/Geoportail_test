@@ -190,7 +190,7 @@
         for (let i=0, c=zooms.length; i<c; i++){
           zoom = zooms[i];
           // Récupération du nom de l'amodiataire
-          let aot = zoom.previousElementSibling.innerText;
+          let aot = zoom.parentElement.previousElementSibling.firstElementChild.innerText;
           // Récupération de l'amodiataire où on veut zoomer
           zoom.addEventListener("click", function(){
             // Pour chaque amodiataire dont on a le centroïde

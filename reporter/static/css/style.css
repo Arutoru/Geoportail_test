@@ -126,4 +126,5 @@ section div ul li small{
 /* Afficher uniquement les 26 premiers éléments */
 section div ul li:nth-child(n+27){
   display: none !important;
+  }
 }
