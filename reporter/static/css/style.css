@@ -74,7 +74,6 @@ section div ul li:nth-child(n+14){
   background-color: white;
   overflow-x: hidden;
   transition: 0.5s;
-  padding-top: 60px;
   z-index: 1000;
 }
 
@@ -90,7 +89,7 @@ section div ul li:nth-child(n+14){
   color: #1566B1;
 }
 
-.sidebar .closebtn {
+.sidebar .closebtn{
   position: absolute;
   top: 0;
   right: 25px;

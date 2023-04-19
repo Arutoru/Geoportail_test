@@ -6,12 +6,14 @@
         menubtn.style.marginRight = "300px";
         menubtn.style.transform = "rotate(90deg)";
         menubtn.className = "menu closebtn";
+        menubtn.innerHTML = "X";
       }
       else if(menubtn.className == "menu closebtn"){
         document.getElementById("accordion").style.width = "0px";
         menubtn.style.marginRight = "0px";
         menubtn.style.transform = "rotate(180deg)";
         menubtn.className = "menu openbtn";
+        menubtn.innerHTML = "|||";
       }
     }, false);
 
@@ -144,15 +146,14 @@
         if (l==0){
           items[i].setAttribute('style', 'display: '+ listStyle[i]+' !important');
         }
-        else if(aot.toLowerCase().slice(0,l)!=search.toLowerCase()){
-          items[i].setAttribute('style', 'display: none !important');
+        else if(aot.toLowerCase().includes(search.toLowerCase())){
+          items[i].setAttribute('style', 'display: flex !important');
         }
         else{
-          items[i].setAttribute('style', 'display: flex !important');
+          items[i].setAttribute('style', 'display: none !important');
           // console.log(items[i].innerText.slice(0,l));
         }
       };
-
     };
 
     // Fonction de téléchargement des couches
