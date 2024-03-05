@@ -30,7 +30,7 @@ SECRET_KEY = '#16d&9$&ahec*jcsm3s_8g!==3c%t)ei_2xjzu0f4-_4bq^($3'
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -86,17 +86,26 @@ WSGI_APPLICATION = 'agricom.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.contrib.gis.db.backends.postgis',
+#         'NAME': 'railway',
+#         'USER': 'postgres',
+#         'HOST': 'containers-us-west-1.railway.app',
+#         'PASSWORD': 'pG7DrZxhTwLG6LCeFHkT',
+#         'PORT': '7058',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'railway',
+        'HOST': 'localhost',
+        'NAME': 'geoportail',
         'USER': 'postgres',
-        'HOST': 'containers-us-west-1.railway.app',
-        'PASSWORD': 'pG7DrZxhTwLG6LCeFHkT',
-        'PORT': '7058',
+        'PASSWORD': 'postgres',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -133,7 +142,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE = " django.contrib.staticfiles.storage.StaticFilesStorage"
 
 STATIC_URL = '/static/'
 STATIC_ROOT = str(os.path.join(BASE_DIR, "staticfiles"))
@@ -146,9 +156,9 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 LEAFLET_CONFIG = {
-    # Retirer 0.005 pour les 2 premières et ajouter 0.005 pour les 2 dernières
-    'SPATIAL_EXTENT': (9.661, 4.005, 9.698, 4.040), # 4 corners
-    'DEFAULT_CENTER': (9.683, 4.025), # lat,long
+    # Retirer 0.022 pour les 2 premières et ajouter 0.022 pour les 2 dernières
+    'SPATIAL_EXTENT': (9.663, 4.003, 9.707, 4.047), # 4 corners
+    'DEFAULT_CENTER': (9.685, 4.025), # lat,long
     'DEFAULT_ZOOM': 15,
     'MIN_ZOOM': 13,
     'TILES': [('Satellite','https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}' ,

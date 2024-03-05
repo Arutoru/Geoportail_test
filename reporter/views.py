@@ -28,9 +28,9 @@ class AotListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Récupération des données avec date d'expiration encore loin
-        query1 = Aot.objects.filter(date_fin__gt=timezone.now()+timedelta(days=120)).order_by('date_fin')
+        query1 = Aot.objects.filter(date_fin__gt=timezone.now()+timedelta(days=60)).order_by('date_fin')
         # Récupération des données avec date d'expiration presque atteinte
-        query2 = Aot.objects.filter(date_fin__lte=timezone.now()+timedelta(days=120)).filter(date_fin__gt=timezone.now()).order_by('date_fin')
+        query2 = Aot.objects.filter(date_fin__lte=timezone.now()+timedelta(days=60)).filter(date_fin__gt=timezone.now()).order_by('date_fin')
         # Récupération des données avec date d'expiration dépassée
         query3 = Aot.objects.filter(date_fin__lte=timezone.now()).order_by('date_fin')
 

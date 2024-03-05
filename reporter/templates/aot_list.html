@@ -23,8 +23,18 @@
           </button>
           <!-- Création des points de notifications pour les remarques -->
           {% for statut in critique %}
-            {% if statut.amodiataire == aot.amodiataire %}
-            <i class="fa fa-circle" aria-hidden="true" style="color:rgb(255,57,29);"></i>
+            {% if statut.remarque and statut.amodiataire == aot.amodiataire %}
+            <i class="fa fa-exclamation-circle" aria-hidden="true" style="color:rgb(255,57,29);"></i>
+            {% endif %}
+          {% endfor %}
+          {% for statut in intermediaire %}
+            {% if statut.remarque and statut.amodiataire == aot.amodiataire %}
+            <i class="fa fa-exclamation-circle" aria-hidden="true" style="color:rgb(255,170,50);"></i>
+            {% endif %}
+          {% endfor %}
+          {% for statut in bon %}
+            {% if statut.remarque and statut.amodiataire == aot.amodiataire %}
+            <i class="fa fa-exclamation-circle" aria-hidden="true" style="color:(58,180,10);"></i>
             {% endif %}
           {% endfor %}
         </div>
@@ -45,13 +55,18 @@
           </button>
           <!-- Création des points de notifications pour les remarques -->
           {% for statut in critique %}
-            {% if statut.amodiataire == aot.amodiataire %}
-            <i class="fa fa-circle" aria-hidden="true" style="color:rgb(255,57,29);"></i>
+            {% if statut.remarque and statut.amodiataire == aot.amodiataire %}
+            <i class="fa fa-exclamation-circle" aria-hidden="true" style="color:rgb(255,57,29);"></i>
             {% endif %}
           {% endfor %}
           {% for statut in intermediaire %}
-            {% if statut.amodiataire == aot.amodiataire %}
-            <i class="fa fa-circle" aria-hidden="true" style="color:rgb(255,220,50);"></i>
+            {% if statut.remarque and statut.amodiataire == aot.amodiataire %}
+            <i class="fa fa-exclamation-circle" aria-hidden="true" style="color:rgb(255,170,50);"></i>
+            {% endif %}
+          {% endfor %}
+          {% for statut in bon %}
+            {% if statut.remarque and statut.amodiataire == aot.amodiataire %}
+            <i class="fa fa-exclamation-circle" aria-hidden="true" style="color:rgb(58,180,10)"></i>
             {% endif %}
           {% endfor %}
         </div>
@@ -72,18 +87,18 @@
           </button>
           <!-- Création des points de notifications pour les remarques -->
           {% for statut in critique %}
-            {% if statut.amodiataire == aot.amodiataire %}
-            <i class="fa fa-circle" aria-hidden="true" style="color:rgb(255,57,29);"></i>
+            {% if statut.remarque and statut.amodiataire == aot.amodiataire %}
+            <i class="fa fa-exclamation-circle" aria-hidden="true" style="color:rgb(255,57,29);"></i>
             {% endif %}
           {% endfor %}
           {% for statut in intermediaire %}
-            {% if statut.amodiataire == aot.amodiataire %}
-            <i class="fa fa-circle" aria-hidden="true" style="color:rgb(255,220,50);"></i>
+            {% if statut.remarque and statut.amodiataire == aot.amodiataire %}
+            <i class="fa fa-exclamation-circle" aria-hidden="true" style="color:rgb(255,170,50);"></i>
             {% endif %}
           {% endfor %}
           {% for statut in bon %}
-            {% if statut.amodiataire == aot.amodiataire %}
-            <i class="fa fa-circle" aria-hidden="true" style="color:rgb(76,184,33);"></i>
+            {% if statut.remarque and statut.amodiataire == aot.amodiataire %}
+            <i class="fa fa-exclamation-circle" aria-hidden="true" style="color:rgb(58,180,10)"></i>
             {% endif %}
           {% endfor %}
         </div>
@@ -185,7 +200,7 @@
             </label>
             <!-- Définition de la symbologie -->
             <ul style="padding:0">
-              <li class="d-flex flex-row"><div class="" style="width:20px; height:20px; background:red;"></div><span>&nbsp;Expirés</span></li>
+              <li class="d-flex flex-row"><div class="" style="width:20px; height:20px; background:red;"></div><span>&nbsp;Expiré</span></li>
               <li class="d-flex flex-row"><div class="" style="width:20px; height:20px; background:orange;"></div><span>&nbsp;En cours d'expiration</span></li>
               <li class="d-flex flex-row"><div class="" style="width:20px; height:20px; background:green;"></div><span>&nbsp;A jour</span></li>
             </ul>
@@ -207,10 +222,29 @@
             </label>
             <!-- Définition de la symbologie -->
             <ul style="padding:0">
-              <li class="d-flex flex-row"><div class="" style="width:20px; height:15px; border-bottom:4px solid blue;"></div><span>&nbsp;Bitumé</span></li>
+              <li class="d-flex flex-row"><div class="" style="width:20px; height:15px; border-bottom:4px solid silver;"></div><span>&nbsp;Bitumé</span></li>
               <li class="d-flex flex-row"><div class="" style="width:20px; height:15px; border-bottom:4px solid orange;"></div><span>&nbsp;Non bitumé</span></li>
             </ul>
           </div>
+
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="Region" id="defaultCheck4" checked>
+            <label class="form-check-label" for="defaultCheck4">
+              Chemin de fer
+            </label>
+            <!-- Définition de la symbologie -->
+            <div class="" style="width:20px; height:15px; border-bottom:4px solid black;"></div>
+          </div>
+
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="Region" id="defaultCheck5" checked>
+            <label class="form-check-label" for="defaultCheck5">
+              Réseau Electrique
+            </label>
+            <!-- Définition de la symbologie -->
+            <div class="" style="width:20px; height:15px; border-bottom:3px solid skyblue;"></div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -268,13 +302,31 @@
       </div>
       <div id="collapseFive" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
         <div class="card-body">
+          <span>Etiquetage</span>
           <button type="button" id="labelOn" class="btn btn-success mx-2">
-            Afficher les étiquettes <span class="fa fa-eye" aria-hidden="true"></span>
+            <span class="fa fa-eye" aria-hidden="true"></span>
           </button>
-          <br>
-          <br>
           <button type="button" id="labelOff" class="btn btn-success mx-2">
-            Effacer les étiquettes <span class="fa fa-eye-slash" aria-hidden="true"></span>
+            <span class="fa fa-eye-slash" aria-hidden="true"></span>
+          </button>
+          <hr>
+          <br>
+          <span>Mesure</span>
+          <button type="button" id="distance" class="btn btn-success mx-2">
+            <svg width="20" height="20">
+                <polygon points=" 19,10 1,10" style="fill:none;stroke:white;stroke-width:2.5" />
+            </svg>
+          </button>
+          <button type="button" id="area" class="btn btn-success mx-2">
+            <svg width="20" height="20">
+                <polygon points=" 16,1 4,1 1,16 19,16" style="fill:none;stroke:white;stroke-width:2.5" />
+            </svg>
+          </button>
+          <hr>
+          <br>
+          <span>Geolocalisation</span>
+          <button type="button" id="geolocation" class="btn btn-success mx-2">
+            <span class="fa fa-map-marker" aria-hidden="true"></span>
           </button>
         </div>
       </div>

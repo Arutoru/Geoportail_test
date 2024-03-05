@@ -2,7 +2,7 @@ import os
 import csv
 from django.contrib.gis.utils import LayerMapping
 from django.contrib.gis.geos import Point
-from .models import Aot, Index, Route
+from .models import Aot, Index, Route, CheminFer, ReseauElec
 
 
 aot_mapping = {
@@ -26,7 +26,6 @@ index_mapping = {
     'objectid': 'OBJECTID',
     'join_count': 'Join_Count',
     'target_fid': 'TARGET_FID',
-    'join_fid': 'JOIN_FID',
     'code_tarif': 'code_tarif',
     'compteur': 'compteur',
     'nouvel_ind': 'Nouvel_Ind',
@@ -37,7 +36,7 @@ index_mapping = {
     'mont_conso': 'mont_conso',
     'entretien': 'entretien',
     'mont_payer': 'mont_payer',
-    'amodiatair': 'AMODIATAIR',
+    'amodiataire': 'AMODIATAIR',
     'rccm': 'RCCM',
     'niu': 'NIU',
     'bp': 'BP',
@@ -53,9 +52,30 @@ route_mapping = {
     'geom': 'MULTILINESTRING',
 }
 
+reseau_elec_mapping = {
+    'full_id': 'full_id',
+    'highway': 'highway',
+    'service': 'service',
+    'oneway': 'oneway',
+    'surface': 'surface',
+    'name': 'name',
+    'geom': 'MULTILINESTRING',
+}
+
+chemin_fer_mapping = {
+    'full_id': 'full_id',
+    'usage': 'usage',
+    'service': 'service',
+    'gauge': 'gauge',
+    'geom': 'MULTILINESTRING',
+}
+
 aot_shp = os.path.abspath(os.path.join(os.path.dirname(__file__),'data/AOT.shp'))
 index_shp = os.path.abspath(os.path.join(os.path.dirname(__file__),'data/index.shp'))
 route_shp = os.path.abspath(os.path.join(os.path.dirname(__file__),'data/Route.shp'))
+chemin_shp = os.path.abspath(os.path.join(os.path.dirname(__file__),'data/Chemin_fer.shp'))
+elec_shp = os.path.abspath(os.path.join(os.path.dirname(__file__),'data/Reseau_elec.shp'))
+
 
 def runAot(verbose=True):
     lm = LayerMapping(Aot, aot_shp, aot_mapping, transform=False, encoding='UTF-8')
@@ -69,6 +89,13 @@ def runRoute(verbose=True):
     lm = LayerMapping(Route, route_shp, route_mapping, transform=False, encoding='UTF-8')
     lm.save(strict=True, verbose=verbose)
 
+def runCheminFer(verbose=True):
+    lm = LayerMapping(CheminFer, chemin_shp, chemin_fer_mapping, transform=False, encoding='UTF-8')
+    lm.save(strict=True, verbose=verbose)
+
+def runReseauElec(verbose=True):
+    lm = LayerMapping(ReseauElec, elec_shp, reseau_elec_mapping, transform=False, encoding='UTF-8')
+    lm.save(strict=True, verbose=verbose)
 
 
 # csv_file = os.path.abspath(os.path.join(os.path.dirname(__file__),'data/Bornes.txt'))

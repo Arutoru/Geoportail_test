@@ -26,6 +26,9 @@
       crossorigin=""></script>
     <!-- Leaflet pour label -->
     <script src="https://cdn.jsdelivr.net/npm/leaflet-textpath@1.2.0/leaflet.textpath.min.js"></script>
+    <!-- leaflet measure distance and areas -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/measure.css' %}" />
+    <script type="text/javascript" src="{% static 'js/measure.js' %}"></script>
     <!-- Latest compiled Bootsrtap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -95,7 +98,8 @@
 
   <script type="text/javascript">
     //Définition des variables globales
-    var dataurls = ['{% url "aot_data" %}', '{% url "index_data" %}', '{% url "route_data" %}'] ;
+    var dataurls = ['{% url "aot_data" %}', '{% url "index_data" %}', '{% url "route_data" %}',
+                      '{% url "chemin_fer_data" %}', '{% url "reseau_elec_data" %}'] ;
     var files = new Array();
     var Centroids = new Object();
     var Layers = new Object();
@@ -138,8 +142,15 @@
               // puis on remplace la ',' entre chaque cooordonnée par l'espace
               // afin de pouvoir aller à ligne dans le popup.
               bornes = coord.toString();
-              bornes = bornes.replace(/,9/g, " 9");
+              listborne = bornes.split(",");
+              listborne.forEach(function(element, index, array) {
+                  // Utiliser slice pour récupérer les cinq premiers caractères de chaque chaîne
+                  array[index] = element.slice(0, 8);
+              });
+              bornes = listborne.join(" ");
 
+              // Remarque
+              remarque = props.remarque == null ? '' : props.remarque
               // Intégration des informations de légendes
               control = `<h7>AOT<h7>
                         <ul style="padding:0">
@@ -150,17 +161,19 @@
               // Intégration des informations de popup
               content = `<h2 class = "popup">${props.amodiataire}</h2>
                         <h3>${props.superficie} m²</h3>
-                        <h6 style="color:${props.statut};">${props.remarque}</h6>
+                        <h6 style="color:${props.statut};">${remarque}</h6>
                         <h7>NUI: ${props.niu}</h7><br>
                         <h7>RCCM: ${props.rccm}</h7><br>
                         <h7>Tel: ${props.tel}</h7><br>
                         <h7>Durée du bail: ${props.duree_bail} ans</h7><br>
+                        <h7>Taux loyer: ${props.taux_loyer} Fcfa/m²</h7><br>
                         <h7>Montant de la caution: ${props.montant_caution} FCFA</h7><br>
-                        <h7>Date de paiement: ${props.date_caution}</h7><br>
+                        <h7>Date de facturation: ${props.date_debut}</h7><br>
                         <h7>Date d'expiration: ${props.date_fin}</h7><br>
                         <h7>Localisation: ${props.localisation}</h7><br>
                         <h7>Bornes:</h7><br>
                         <div style="width:250px; word-spacing: 50px;">${bornes}</div>`};
+
           if (props.model == "reporter.index"){
             // Intégration des informations de légendes
             control = `<h7>Compteur <h7><img width="10" src="{% static "Electrical.png" %}"/>`;
@@ -169,19 +182,33 @@
                        <h7>Montant consommé: ${props.mont_payer} FCFA</h7><br>
                        <h7>Frais d'entretien: ${props.entretien} FCFA</h7><br>
                        <h7>Montant à payer: ${props.mont_payer} FCFA</h7>`};
+
           if (props.model == "reporter.route"){
             // Définition des labels pour les routes
               layer.setText(props.nom_rue + ' Rue N°' + props.numero_rue, {center: true, attributes:{fill: 'white', style: 'font-weight: bold; font-size: 15px;'}});
             // Intégration des informations de légendes
             control = `<h7>Route<h7>
                       <ul style="padding:0">
-                        <li class="d-flex flex-row"><div class="" style="width:10px; height:8px; border-bottom:3px solid blue;"></div><span>&nbsp;Bitumé</span></li>
+                        <li class="d-flex flex-row"><div class="" style="width:10px; height:8px; border-bottom:3px solid silver;"></div><span>&nbsp;Bitumé</span></li>
                         <li class="d-flex flex-row"><div class="" style="width:10px; height:8px; border-bottom:3px solid orange;"></div><span>&nbsp;Non bitumé</span></li>
                       </ul>`;
             // Intégration des informations de popup
-            content = `<h2>${props.nom_rue}</h2>
-                       <h7>Numero rue: ${props.numero_rue}</h7><br>
-                       <h7>Type de route: ${props.type}</h7><br>`};
+            // content = `<h2>${props.nom_rue}</h2>
+            //            <h7>Numero rue: ${props.numero_rue}</h7><br>
+            //            <h7>Type de route: ${props.type}</h7><br>`
+            };
+
+            if(props.model == "reporter.cheminfer"){
+              // Intégration des informations de légendes
+              control = `<h7>Chemin de fer</h7>  <div class="" style="width:10px; height:8px; border-bottom:3px solid black;"></div>`
+              // Intégration des informations de popup
+            };
+
+            if(props.model == "reporter.reseauelec"){
+              // Intégration des informations de légendes
+              control = `<h7>Réseau Electrique</h7> <div class="" style="width:10px; height:8px; border-bottom:2px solid skyblue;"></div>`
+              // Intégration des informations de popup
+            };
             layer.bindPopup(content);
           }
         }).addTo(map),control);
@@ -254,7 +281,7 @@
               fillOpacity: 0.4
             };
           case false:
-            if(new Date(props.date_fin)-new Date()<10368000000){
+            if(new Date(props.date_fin)-new Date()<5184000000){
               return{
                 color: 'orange',
                 fillOpacity: 0.4
@@ -271,16 +298,30 @@
         switch(props.type){
           case'Bitumé':
           return{
-            color: 'blue'
+            color: 'silver'
           };
           case'Non bitumé':
           return{
             color: 'orange'
           }
       }};
+      if (props.model == "reporter.cheminfer"){
+        return {
+          color: 'black',
+          dashArray: '4, 4'
+        }
+      };
+      if (props.model == "reporter.reseauelec"){
+        return {
+          color: 'skyblue',
+          weight: 2
+        }
+      };
     };
 
-    // Fonctionnalité d'adressage
+
+
+    // Outils
     function map_init(map) {
       // Bar de recherche esri
       var searchControl = L.esri.Geocoding.geosearch().addTo(map);
@@ -289,7 +330,6 @@
       searchControl.on('results', function (data) {
         var position = data.results[0].latlng;
         results.clearLayers();
-
 
         //Calcul d'itinéraire
         var routing = L.Routing.control({
@@ -306,9 +346,69 @@
         //   routing.remove();
         // }, false);
       });
+
+      // Mesure de distance
+      L.Measure = {
+         // linearMeasurement: "Mesure de distance",
+         // areaMeasurement: "Mesure de superficie",
+         start: "Départ",
+         meter: "m",
+         kilometer: "km",
+         squareMeter: "m²",
+         squareKilometers: "km²",
+         };
+
+       document.getElementById('distance').addEventListener("click", function(){
+         var measureAction = new L.MeasureAction(map, {
+           model: "distance"
+         });
+         measureAction.enable();
+       }, false)
+       document.getElementById('area').addEventListener("click", function(){
+         var measureAction = new L.MeasureAction(map, {
+           model: "area"
+         });
+         measureAction.enable();
+       }, false)
+
+       // Géolocalisation
+       function onLocationFound(e) {
+         var radius = e.accuracy / 2;
+
+         var precision = L.circle(e.latlng, radius).addTo(map);
+         var position = e.latlng;
+
+         var routing = L.Routing.control({
+           waypoints: [
+             L.latLng(position.lat,position.lng),
+             L.latLng(position.lat,position.lng)
+           ]
+         }).addTo(map);
+
+         map.on("dblclick", function(e){
+           routing.remove();
+           map.removeLayer(precision);
+        });
+       }
+
+       // Récupération de l'erreur
+       function onLocationError(e) {
+         alert(e.message);
+       }
+
+       // Options de géolocalisation
+       var locateOptions = {
+         setView: true,
+       };
+
+       // Activation de la géolocalisation
+       document.getElementById('geolocation').addEventListener("click", function(){
+         map.on('locationfound', onLocationFound);
+         map.on('locationerror', onLocationError);
+         map.locate(locateOptions);
+      }, false)
+
     };
-
-
 
   </script>
 

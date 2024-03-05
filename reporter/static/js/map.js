@@ -138,7 +138,7 @@
     var data = [trace1];
 
     var layout = {
-      title: "Nombre d'AOT par <br> classes des cautions",
+      title: "Nombre d'AOT par <br> classes de loyer",
       height: 300,
       width: 180,
       margin: {"t": 50, "b": 50, "l": 15, "r": 25},

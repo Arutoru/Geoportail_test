@@ -32,8 +32,8 @@ class Aot(models.Model):
     superficie = models.FloatField(default=None)
     montant_caution = models.BigIntegerField(default=None)
     localisation = models.CharField(max_length=50, choices=region, default=None, null=True)
+    remarque = models.CharField(max_length=50, default=None, null=True, blank=True)
     statut = models.CharField(max_length=50, choices=color, default='green')
-    remarque = models.CharField(max_length=50, default='R.A.S.')
     geom = models.MultiPolygonField(srid=4326)
 
 
@@ -93,3 +93,31 @@ class Route(models.Model):
 
     def __str__(self):
         return self.nom_rue
+
+class CheminFer(models.Model):
+    full_id = models.CharField(max_length=25)
+    usage = models.CharField(max_length=20, null=True, blank=True)
+    service = models.CharField(max_length=20, null=True, blank=True)
+    gauge = models.CharField(max_length=10 ,null=True, blank=True)
+    geom = models.MultiLineStringField(srid=4326)
+
+    def _unicode_(self):
+        return self.full_id
+
+    def __str__(self):
+        return self.full_id
+
+class ReseauElec(models.Model):
+    full_id = models.CharField(max_length=25)
+    highway = models.CharField(max_length=50, null=True, blank=True)
+    service = models.CharField(max_length=50, null=True, blank=True)
+    oneway = models.CharField(max_length=50, null=True, blank=True)
+    surface = models.CharField(max_length=25, null=True, blank=True)
+    name = models.CharField(max_length=50, null=True, blank=True)
+    geom = models.MultiLineStringField(srid=4326)
+
+    def _unicode_(self):
+        return self.full_id
+
+    def __str__(self):
+        return self.full_id
