@@ -127,8 +127,8 @@ section div div img.card-img:hover {
 }
 
 @media (min-width: 1199.98px){
-/* Afficher uniquement les 12 premiers éléments */
-section div ul li:nth-child(n+13){
+/* Afficher uniquement les 13 premiers éléments */
+section div ul li:nth-child(n+14){
     display: none !important;
   }
 }
@@ -138,8 +138,8 @@ section div ul li:nth-child(n+13){
 section div ul li small{
     display: none !important;
   }
-/* Afficher uniquement les 25 premiers éléments */
-section div ul li:nth-child(n+26){
+/* Afficher uniquement les 26 premiers éléments */
+section div ul li:nth-child(n+27){
   display: none !important;
   }
 }

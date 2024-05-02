@@ -4,10 +4,18 @@
   {% block content1 %}
 
   <div class="col-2 d-flex flex-column">
-    <div class="input-group mb-3">
+    <div class="input-group mb-2">
       <input class="form-control" id="search" type="text" placeholder="Rechercher une AOT" aria-label="Search" onkeyup="searchItem()">
     </div>
-    <ul class="list-group">
+    <div class="dropdown d-flex flex-column flex-xl-row mb-2">
+      <span class="mx-auto">filtré par :&nbsp;</span>
+      <select class="custom-select" id="AOTfiltre" onchange="filtre()">
+        <option value="Expiration">Date d'expiration</option>
+        <option value="Remarque">Remarque</option>
+      </select>
+    </div>
+
+    <ul class="list-group" id="expiration">
 
       <!-- Création des AOT expirés -->
       {% for aot in red %}
@@ -34,12 +42,13 @@
           {% endfor %}
           {% for statut in bon %}
             {% if statut.remarque and statut.amodiataire == aot.amodiataire %}
-            <i class="fa fa-exclamation-circle" aria-hidden="true" style="color:(58,180,10);"></i>
+            <i class="fa fa-exclamation-circle" aria-hidden="true" style="color:rgb(58,180,10);"></i>
             {% endif %}
           {% endfor %}
         </div>
       </li>
       {% endfor %}
+
 
       <!-- Création des AOT en attente de facturation -->
       {% for aot in orange %}
@@ -104,6 +113,174 @@
         </div>
       </li>
       {% endfor %}
+    </ul>
+
+    <ul class="list-group" id="remarque" style="display: none;">
+      <!-- AOT avec remarque critique -->
+      {% for statut in critique %}
+        {% for aot in red %}
+          {% if statut.remarque and statut.amodiataire == aot.amodiataire %}
+          <li class="list-group-item list-group-item-danger d-flex flex-wrap justify-content-between">
+            <div>
+              <h7>{{aot.amodiataire}}</h7>
+              <br>
+              <small>{{aot.date_fin|date:"j M Y"}}</small>
+            </div>
+            <div>
+              <button style="font-size: 0.6rem;" type="button" class="zoom btn btn-outline-danger btn-sm">
+                <span class="fa fa-search" aria-hidden="true"></span>
+              </button>
+              <i class="fa fa-exclamation-circle" aria-hidden="true" style="color:rgb(255,57,29);"></i>
+            </div>
+          </li>
+          {% endif %}
+        {% endfor %}
+        {% for aot in orange %}
+          {% if statut.remarque and statut.amodiataire == aot.amodiataire %}
+          <li class="list-group-item list-group-item-warning d-flex flex-wrap justify-content-between">
+            <div>
+              <h7>{{aot.amodiataire}}</h7>
+              <br>
+              <small>{{aot.date_fin|date:"j M Y"}}</small>
+            </div>
+            <div>
+              <button style="font-size: 0.6rem;" type="button" class="zoom btn btn-outline-warning btn-sm">
+                <span class="fa fa-search" aria-hidden="true"></span>
+              </button>
+              <i class="fa fa-exclamation-circle" aria-hidden="true" style="color:rgb(255,57,29);"></i>
+            </div>
+          </li>
+          {% endif %}
+        {% endfor %}
+        {% for aot in green %}
+          {% if statut.remarque and statut.amodiataire == aot.amodiataire %}
+          <li class="list-group-item list-group-item-success d-flex flex-wrap justify-content-between">
+            <div>
+              <h7>{{aot.amodiataire}}</h7>
+              <br>
+              <small>{{aot.date_fin|date:"j M Y"}}</small>
+            </div>
+            <div>
+              <button style="font-size: 0.6rem;" type="button" class="zoom btn btn-outline-success btn-sm">
+                <span class="fa fa-search" aria-hidden="true"></span>
+              </button>
+              <i class="fa fa-exclamation-circle" aria-hidden="true" style="color:rgb(255,57,29);"></i>
+            </div>
+          </li>
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+
+      <!-- AOT avec remarque intermediaire -->
+      {% for statut in intermediaire %}
+        {% for aot in red %}
+          {% if statut.remarque and statut.amodiataire == aot.amodiataire %}
+          <li class="list-group-item list-group-item-danger d-flex flex-wrap justify-content-between">
+            <div>
+              <h7>{{aot.amodiataire}}</h7>
+              <br>
+              <small>{{aot.date_fin|date:"j M Y"}}</small>
+            </div>
+            <div>
+              <button style="font-size: 0.6rem;" type="button" class="zoom btn btn-outline-danger btn-sm">
+                <span class="fa fa-search" aria-hidden="true"></span>
+              </button>
+              <i class="fa fa-exclamation-circle" aria-hidden="true" style="color:rgb(255,170,50);"></i>
+            </div>
+          </li>
+          {% endif %}
+        {% endfor %}
+        {% for aot in orange %}
+          {% if statut.remarque and statut.amodiataire == aot.amodiataire %}
+          <li class="list-group-item list-group-item-warning d-flex flex-wrap justify-content-between">
+            <div>
+              <h7>{{aot.amodiataire}}</h7>
+              <br>
+              <small>{{aot.date_fin|date:"j M Y"}}</small>
+            </div>
+            <div>
+              <button style="font-size: 0.6rem;" type="button" class="zoom btn btn-outline-warning btn-sm">
+                <span class="fa fa-search" aria-hidden="true"></span>
+              </button>
+              <i class="fa fa-exclamation-circle" aria-hidden="true" style="color:rgb(255,170,50);"></i>
+            </div>
+          </li>
+          {% endif %}
+        {% endfor %}
+        {% for aot in green %}
+          {% if statut.remarque and statut.amodiataire == aot.amodiataire %}
+          <li class="list-group-item list-group-item-success d-flex flex-wrap justify-content-between">
+            <div>
+              <h7>{{aot.amodiataire}}</h7>
+              <br>
+              <small>{{aot.date_fin|date:"j M Y"}}</small>
+            </div>
+            <div>
+              <button style="font-size: 0.6rem;" type="button" class="zoom btn btn-outline-success btn-sm">
+                <span class="fa fa-search" aria-hidden="true"></span>
+              </button>
+              <i class="fa fa-exclamation-circle" aria-hidden="true" style="color:rgb(255,170,50);"></i>
+            </div>
+          </li>
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+
+      <!-- AOT avec remarque bonne -->
+      {% for statut in bon %}
+        {% for aot in red %}
+          {% if statut.remarque and statut.amodiataire == aot.amodiataire %}
+          <li class="list-group-item list-group-item-danger d-flex flex-wrap justify-content-between">
+            <div>
+              <h7>{{aot.amodiataire}}</h7>
+              <br>
+              <small>{{aot.date_fin|date:"j M Y"}}</small>
+            </div>
+            <div>
+              <button style="font-size: 0.6rem;" type="button" class="zoom btn btn-outline-danger btn-sm">
+                <span class="fa fa-search" aria-hidden="true"></span>
+              </button>
+              <i class="fa fa-exclamation-circle" aria-hidden="true" style="color:rgb(58,180,10);"></i>
+            </div>
+          </li>
+          {% endif %}
+        {% endfor %}
+        {% for aot in orange %}
+          {% if statut.remarque and statut.amodiataire == aot.amodiataire %}
+          <li class="list-group-item list-group-item-warning d-flex flex-wrap justify-content-between">
+            <div>
+              <h7>{{aot.amodiataire}}</h7>
+              <br>
+              <small>{{aot.date_fin|date:"j M Y"}}</small>
+            </div>
+            <div>
+              <button style="font-size: 0.6rem;" type="button" class="zoom btn btn-outline-warning btn-sm">
+                <span class="fa fa-search" aria-hidden="true"></span>
+              </button>
+              <i class="fa fa-exclamation-circle" aria-hidden="true" style="color:rgb(58,180,10);"></i>
+            </div>
+          </li>
+          {% endif %}
+        {% endfor %}
+        {% for aot in green %}
+          {% if statut.remarque and statut.amodiataire == aot.amodiataire %}
+          <li class="list-group-item list-group-item-success d-flex flex-wrap justify-content-between">
+            <div>
+              <h7>{{aot.amodiataire}}</h7>
+              <br>
+              <small>{{aot.date_fin|date:"j M Y"}}</small>
+            </div>
+            <div>
+              <button style="font-size: 0.6rem;" type="button" class="zoom btn btn-outline-success btn-sm">
+                <span class="fa fa-search" aria-hidden="true"></span>
+              </button>
+              <i class="fa fa-exclamation-circle" aria-hidden="true" style="color:rgb(58,180,10);"></i>
+            </div>
+          </li>
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+
     </ul>
   </div>
 

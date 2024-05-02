@@ -12,6 +12,18 @@
       }
     }, false)
 
+    // Critère de classification des AOT
+    function filtre() {
+      var filtre = document.getElementById("AOTfiltre").value;
+      if (filtre == 'Expiration') {
+        document.getElementById('expiration').setAttribute('style', 'display: block');
+        document.getElementById('remarque').setAttribute('style', 'display: none');
+      }
+      else if (filtre == 'Remarque') {
+        document.getElementById('expiration').setAttribute('style', 'display: none');
+        document.getElementById('remarque').setAttribute('style', 'display: block');
+      }
+    };
 
     // Menu contextuel
     var menubtn = document.getElementById("main")
