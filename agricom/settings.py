@@ -17,11 +17,11 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_DIR = BASE_DIR / 'reporter' / 'static'
 # LINUX
-GDAL_LIBRARY_PATH = str(os.path.join(BASE_DIR, "GDAL_LINUX/gdal/osgeo/lib/libgdal.so"))
-GEOS_LIBRARY_PATH = str(os.path.join(BASE_DIR, "GDAL_LINUX/geos/pygeos/lib.cpython-39-x86_64-linux-gnu.so"))
+# GDAL_LIBRARY_PATH = str(os.path.join(BASE_DIR, "GDAL_LINUX/gdal/osgeo/lib/libgdal.so"))
+# GEOS_LIBRARY_PATH = str(os.path.join(BASE_DIR, "GDAL_LINUX/geos/pygeos/lib.cpython-39-x86_64-linux-gnu.so"))
 # WINDOWS
-# GDAL_LIBRARY_PATH = str(os.path.join(BASE_DIR, "GDAL_WINDOWS/gdal304"))
-# GEOS_LIBRARY_PATH = str(os.path.join(BASE_DIR, "GDAL_WINDOWS/geos_c"))
+GDAL_LIBRARY_PATH = str(os.path.join(BASE_DIR, "GDAL_WINDOWS/gdal304"))
+GEOS_LIBRARY_PATH = str(os.path.join(BASE_DIR, "GDAL_WINDOWS/geos_c"))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -30,7 +30,7 @@ SECRET_KEY = '#16d&9$&ahec*jcsm3s_8g!==3c%t)ei_2xjzu0f4-_4bq^($3'
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -143,7 +143,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 # STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-STATICFILES_STORAGE = " django.contrib.staticfiles.storage.StaticFilesStorage"
+STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 
 STATIC_URL = '/static/'
 STATIC_ROOT = str(os.path.join(BASE_DIR, "staticfiles"))
@@ -157,10 +157,10 @@ LOGOUT_REDIRECT_URL = '/'
 
 LEAFLET_CONFIG = {
     # Retirer 0.022 pour les 2 premières et ajouter 0.022 pour les 2 dernières
-    'SPATIAL_EXTENT': (9.663, 4.003, 9.707, 4.047), # 4 corners
-    'DEFAULT_CENTER': (9.685, 4.025), # lat,long
+    'SPATIAL_EXTENT': (9.66,4.00,9.70,4.04), # 4 corners
+    'DEFAULT_CENTER': (9.68, 4.02), # lat,long
     'DEFAULT_ZOOM': 15,
-    'MIN_ZOOM': 13,
+    'MIN_ZOOM': 12,
     'TILES': [('Satellite','https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}' ,
      {'attribution': '&copy; Big eye'}),
     ('Streets', 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {'attribution': '&copy; Contributors'})],

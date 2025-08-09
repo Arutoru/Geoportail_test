@@ -73,9 +73,9 @@
 
     // Dessin du Pie Chart pour le pourcentage d'AOT valide
     // Récupération du nombre d'AOT en fonction de la validité
-    val1 = document.getElementById("red").innerText;
-    val2 = document.getElementById("orange").innerText;
-    val3 = document.getElementById("green").innerText;
+    const val1 = document.getElementById("red").innerText;
+    const val2 = document.getElementById("orange").innerText;
+    const val3 = document.getElementById("green").innerText;
 
     // Construction du Pie Chart
     var data = [{

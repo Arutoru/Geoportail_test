@@ -54,7 +54,7 @@ class Aot(models.Model):
 #     mont_facture = models.BigIntegerField()
 
 class Index(models.Model):
-    objectid = models.IntegerField()
+    objectid = models.IntegerField(primary_key='True')
     join_count = models.IntegerField()
     target_fid = models.IntegerField()
     code_tarif = models.IntegerField(default=None)
